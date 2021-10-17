@@ -34,8 +34,8 @@ gem 'bcrypt'
 # allows web applications to make cross domain AJAX calls without using workarounds such as JSONP
 gem 'rack-cors'
 
-# CanCan is an authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
-gem 'cancancan'
+# authorization system
+gem 'pundit'
 
 #-------------------------------------------------------------------------------
 # Assets
