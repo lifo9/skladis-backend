@@ -15,7 +15,7 @@ test:
   encoding: unicode
   database: skladis_test
   pool: 5
-  username: skladis
+  username: skladis_test
   password: skladis
   gssencmode: disable
 
