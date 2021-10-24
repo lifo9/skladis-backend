@@ -191,6 +191,7 @@ DEPENDENCIES
   bcrypt
   bootsnap
   byebug
+  factory_bot
   factory_bot_rails
   jwt_sessions
   listen
