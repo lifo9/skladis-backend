@@ -1,21 +1,19 @@
 name: deploy
-
 on:
   push:
-    branches: [ master ]
-
-  workflow_dispatch:
-
+    branches: [master]
+    
 jobs:
   deploy:
+    name: deploy SkladIS Backend to production
     runs-on: ubuntu-latest
-
     steps:
-      - name: deploy SkladIS Backend to production
-      - uses: appleboy/ssh-action@master
-        with:
-         host: ${{ secrets.HOST }}
-         username: ${{ secrets.USERNAME }}
-         port: ${{ secrets.PORT }}
-         key: ${{ secrets.SSH_PRIVATE_KEY }}
-         script: deploy-skladis-backend
+    - name: executing deploy script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: deploy-skladis-backend
+
