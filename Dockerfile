@@ -9,5 +9,5 @@ RUN bundle install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3009
 CMD ["foreman", "start", "-f", "Procfile"]
