@@ -30,4 +30,7 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  bad_request: 'Bad request'
+  forbidden: 'Forbidden'
+  not_authorized: 'Not authorized'
+  not_found: 'Not found'

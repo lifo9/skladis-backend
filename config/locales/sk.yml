@@ -1,0 +1,5 @@
+sk:
+  bad_request: 'Neplatná požiadavka'
+  forbidden: 'Prístup odmietnutý'
+  not_authorized: 'Neoprávnený prístup'
+  not_found: 'Nenájdené'
