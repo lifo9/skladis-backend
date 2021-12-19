@@ -1,7 +1,11 @@
 class SignUpController < ApplicationController
 	def create
+		invitation = RegistrationInvitation.find_by(user: nil, key: params[:registration_key], used: false)
+		return not_authorized unless invitation.present?
+
 		user = User.new(user_params)
 		if user.save
+			invitation.update!(user: user, used: true)
 			payload = { user_id: user.id }
 			session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
 			tokens = session.login
