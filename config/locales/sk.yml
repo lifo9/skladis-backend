@@ -6,7 +6,7 @@ sk:
 
   mail:
     registration:
-      registration_subject: 'Aktivujte si Váš účet'
+      subject: 'Aktivujte si Váš účet'
       text: 'Ďakujeme za Vašu registráciu. Pre aktivovanie účtu kliknite prosím na odkaz nižšie:'
       activate: 'Aktivovať'
 
