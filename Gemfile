@@ -7,7 +7,7 @@ ruby File.read('.ruby-version').strip
 # Core infrastructure
 #-------------------------------------------------------------------------------
 
-gem 'rails', '6.1'
+gem 'rails', '~> 7.0'
 
 # the Ruby interface to the PostgreSQL RDBMS
 gem 'pg'
