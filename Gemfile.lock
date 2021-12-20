@@ -60,6 +60,8 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
+    addressable (2.8.0)
+      public_suffix (>= 2.0.2, < 5.0)
     bcrypt (3.1.16)
     bootsnap (1.9.1)
       msgpack (~> 1.0)
@@ -82,6 +84,10 @@ GEM
     jwt (2.3.0)
     jwt_sessions (2.7.0)
       jwt (>= 2.2.3, < 3)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -104,9 +110,8 @@ GEM
     nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
-    nokogiri (1.12.5-x86_64-linux)
-      racc (~> 1.4)
     pg (1.2.3)
+    public_suffix (4.0.6)
     puma (5.5.2)
       nio4r (~> 2.0)
     pundit (2.1.1)
@@ -190,7 +195,6 @@ GEM
 
 PLATFORMS
   aarch64-linux
-  x86_64-linux
 
 DEPENDENCIES
   bcrypt
@@ -198,6 +202,7 @@ DEPENDENCIES
   byebug
   factory_bot_rails
   jwt_sessions
+  letter_opener
   listen
   pg
   puma

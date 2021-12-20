@@ -10,13 +10,25 @@ class SignUpController < ApplicationController
 			session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
 			tokens = session.login
 
-			response.set_cookie(JWTSessions.access_cookie,
-			                    value: tokens[:access],
-			                    httponly: true,
-			                    secure: Rails.env.production?)
-			render json: { csrf: tokens[:csrf] }
+			UserMailer.with(user: user).registration.deliver_later
+
+			head :ok
 		else
 			render json: { error: user.errors.full_messages.join(' ') }, status: :unprocessable_entity
+		end
+	end
+
+	def activate
+		invitation = RegistrationInvitation.find_by(activation_key: activate_params[:activation_key])
+		user = invitation&.user
+		activated = user&.active
+
+		if invitation.present? && !activated
+			user.update!(active: true)
+
+			head :ok
+		else
+			bad_request
 		end
 	end
 
@@ -24,5 +36,9 @@ class SignUpController < ApplicationController
 
 	def user_params
 		params.permit(:email, :password, :password_confirmation, :first_name, :last_name)
+	end
+
+	def activate_params
+		params.permit([:activation_key])
 	end
 end

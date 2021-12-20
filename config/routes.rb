@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 		get 'me', controller: :users, action: :me
 		post 'refresh', controller: :refresh, action: :create
 		post 'signin', controller: :sign_in, action: :create
-		post 'signup', controller: :sign_up, action: :create
+    scope 'signup', controller: :sign_up do
+			post '/', action: :create
+			post 'activate', action: :activate
+		end
 		delete 'signin', controller: :sign_in, action: :destroy
 	end
 

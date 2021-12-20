@@ -3,3 +3,9 @@ sk:
   forbidden: 'Prístup odmietnutý'
   not_authorized: 'Neoprávnený prístup'
   not_found: 'Nenájdené'
+
+  mail:
+    registration:
+      registration_subject: 'Aktivujte si Váš účet'
+      text: 'Ďakujeme za Vašu registráciu. Pre aktivovanie účtu kliknite prosím na odkaz nižšie:'
+      activate: 'Aktivovať'
