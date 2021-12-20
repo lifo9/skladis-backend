@@ -34,3 +34,9 @@ en:
   forbidden: 'Forbidden'
   not_authorized: 'Not authorized'
   not_found: 'Not found'
+
+  mail:
+    registration:
+      subject: 'Activate your account'
+      text: 'Thank you for registration. To activate your account, please click on the link below:'
+      activate: 'Activate'

@@ -1,0 +1,10 @@
+<h1><%= I18n.t("mail.registration.subject") %></h1>
+
+<p>
+  <%= I18n.t("mail.registration.text") %>
+  <br>
+  <br>
+  <a href="<%= @activation_link %>">
+    <%= I18n.t("mail.registration.activate") %>
+  </a>
+</p>

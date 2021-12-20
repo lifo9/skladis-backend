@@ -73,5 +73,7 @@ group :development do
   # application preloader
   gem 'spring'
   gem 'spring-watcher-listen'
-end
 
+  # preview emails
+  gem "letter_opener", group: :development
+end
