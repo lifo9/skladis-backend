@@ -12,8 +12,6 @@ RUN bundle install
 
 COPY . .
 
-RUN bundle install
-
 EXPOSE 3009
 
 CMD ["sh", "-c", "rails db:migrate && foreman start -f Procfile"]
