@@ -1,4 +1,4 @@
-FROM docker.io/ruby:3.0.2
+FROM docker.io/ruby:3.0.3-alpine
 
 RUN gem install foreman bundle
 
