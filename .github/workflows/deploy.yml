@@ -27,4 +27,4 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           PORT: ${{ secrets.PORT }}
       - name: Run deploy script
-        run: ssh deploy 'source ~/.bashrc; deploy-skladis-backend'
+        run: ssh deploy 'bash --login -c "deploy-skladis-backend"'
