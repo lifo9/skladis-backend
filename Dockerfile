@@ -5,8 +5,6 @@ RUN apk add --no-cache --update build-base \
     linux-headers \
     git \
     postgresql-dev \
-    nodejs \
-    yarn \
     tzdata
 
 RUN gem install foreman bundle
