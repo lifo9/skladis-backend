@@ -9,8 +9,8 @@ RUN apk add --no-cache --update build-base \
 
 RUN gem install foreman bundle
 
-ENV RAILS_ENV production
 ENV RAILS_LOG_TO_STDOUT true
+ARG RAILS_ENV=production
 
 WORKDIR /app
 COPY .ruby-version .
