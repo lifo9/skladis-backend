@@ -21,6 +21,9 @@ gem 'bootsnap'
 # Puma is a simple, fast, multi-threaded, and highly parallel HTTP 1.1 server for Ruby/Rack applications.
 gem 'puma'
 
+# A fast JSON:API serializer for Ruby Objects.
+gem 'jsonapi-serializer'
+
 #-------------------------------------------------------------------------------
 # Rails configuration, middleware, extensions
 #-------------------------------------------------------------------------------
