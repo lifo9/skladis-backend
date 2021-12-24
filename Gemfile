@@ -24,6 +24,12 @@ gem 'puma'
 # A fast JSON:API serializer for Ruby Objects.
 gem 'jsonapi-serializer'
 
+# Pagination library
+gem 'will_paginate'
+
+# Paginate in your headers, not in your response body. This follows the proposed RFC-8288 standard for Web linking.
+gem 'api-pagination'
+
 #-------------------------------------------------------------------------------
 # Rails configuration, middleware, extensions
 #-------------------------------------------------------------------------------
