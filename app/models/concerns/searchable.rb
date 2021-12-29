@@ -3,7 +3,7 @@ module Searchable
 
   included do
     scope :search_all_fields, -> (searchTerm) {
-      where("#{column_names.join(' || ')} like ?", "%#{searchTerm}%")
+      where("#{columns.map { |col| col.type == :string ? "lower(#{col.name})" : col.name }.join(' || ')} like ?", "%#{searchTerm.downcase}%")
     }
   end
 end
