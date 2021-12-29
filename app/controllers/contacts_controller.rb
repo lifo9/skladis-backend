@@ -9,6 +9,7 @@ class ContactsController < ApplicationController
     else
       @contacts = paginate Contact.all
     end
+    @contacts = @contacts.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
 
     render json: ContactSerializer.new(@contacts)
   end
