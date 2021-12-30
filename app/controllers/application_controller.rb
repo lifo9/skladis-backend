@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
   include JWTSessions::RailsAuthorization
+  include Pundit
 
   before_action :set_locale
 
@@ -10,6 +11,7 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from JWTSessions::Errors::Unauthorized, with: :not_authorized
   rescue_from JWTSessions::Errors::ClaimsVerification, with: :forbidden
+  rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
   private
 

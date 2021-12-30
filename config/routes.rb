@@ -19,6 +19,15 @@ Rails.application.routes.draw do
     delete ':id', action: :destroy
   end
 
+  # Users
+  scope 'users', controller: :users do
+    get '', action: :index
+    # get ':id', action: :show
+    # post '', action: :create
+    # patch ':id', action: :update
+    # delete ':id', action: :destroy
+  end
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "application#bad_request"
 end
