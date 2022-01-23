@@ -35,7 +35,8 @@ RSpec.describe MyProfileController, type: :controller do
     end
 
     describe "#update" do
-      let!(:user) { create :user }
+      let(:password) { "old password" }
+      let!(:user) { create :user, active: false, password: password }
 
       let(:valid_new_params) { {
         first_name: "New First",
@@ -49,6 +50,11 @@ RSpec.describe MyProfileController, type: :controller do
         last_name: "New Last",
         email: "new@",
         phone: "+421900123457"
+      } }
+
+      let(:invalid_new_params_password_active) { {
+        active: true,
+        password: "new password"
       } }
 
       context "with valid parameters" do
@@ -74,6 +80,14 @@ RSpec.describe MyProfileController, type: :controller do
 
           expect(response).to have_http_status(:unprocessable_entity)
         end
+      end
+
+      it "does not update password and active attributes" do
+        patch :update, params: { user: invalid_new_params_password_active }
+        user.reload
+
+        expect(user.active).to eq(false)
+        expect(user.password).to eq(password)
       end
     end
   end
