@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 ruby File.read('.ruby-version').strip
 
-
 #-------------------------------------------------------------------------------
 # Core infrastructure
 #-------------------------------------------------------------------------------
@@ -46,6 +45,9 @@ gem 'rack-cors'
 # authorization system
 gem 'pundit'
 
+# Very simple Roles library without any authorization enforcement supporting scope on resource object.
+gem 'rolify'
+
 #-------------------------------------------------------------------------------
 # Assets
 #-------------------------------------------------------------------------------
@@ -73,7 +75,6 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 end
-
 
 group :development do
   # listens to file modifications and notifies you about the changes.

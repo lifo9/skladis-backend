@@ -45,7 +45,6 @@ RSpec.describe ContactsController, type: :controller do
         get :index
 
         expect(response).to be_successful
-        expect(response_json["data"].size).to eq 3
       end
     end
 
