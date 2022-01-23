@@ -5,5 +5,10 @@ FactoryBot.define do
     sequence(:last_name) { |n| "Last #{n}" }
     phone { "+421900123456" }
     password { 'password' }
+    active { true }
+
+    factory :admin do
+      after(:create) { |user| user.add_role(:admin) }
+    end
   end
 end

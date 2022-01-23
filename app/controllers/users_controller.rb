@@ -2,10 +2,6 @@ class UsersController < ApplicationController
   before_action :authorize_access_request!
   before_action :set_user, only: %i[ show update destroy activate deactivate ]
 
-  def me
-    render json: UserSerializer.new(current_user, { include: [:roles] }).serializable_hash.to_json
-  end
-
   # GET /users
   def index
     authorize User.all

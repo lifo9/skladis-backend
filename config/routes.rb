@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   scope '/', defaults: { format: 'json' }, as: :api do
-    get 'me', controller: :users, action: :me
     post 'refresh', controller: :refresh, action: :create
     post 'signin', controller: :sign_in, action: :create
     scope 'signup', controller: :sign_up do
@@ -34,6 +33,12 @@ Rails.application.routes.draw do
   scope 'roles', controller: :roles do
     get '', action: :index
     get ':id', action: :show
+  end
+
+  # My profile
+  scope 'my-profile', controller: :my_profile do
+    get '', action: :index
+    patch '', action: :update
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
