@@ -11,7 +11,8 @@ class SignInController < ApplicationController
       response.set_cookie(JWTSessions.access_cookie,
                           value: tokens[:access],
                           httponly: true,
-                          secure: Rails.env.production?)
+                          secure: true,
+                          same_site: Rails.env.production? ? :Strict : :None)
 
       render json: { csrf: tokens[:csrf] }
     else
