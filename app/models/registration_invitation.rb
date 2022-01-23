@@ -1,7 +1,7 @@
 class RegistrationInvitation < ApplicationRecord
-  self.filter_attributes=[:key, :activation_key]
+  self.filter_attributes = [:registration_key, :activation_key]
 
-  validates :key, presence: true
+  validates :registration_key, presence: true
   validates :activation_key, presence: true
 
   belongs_to :user, required: false
