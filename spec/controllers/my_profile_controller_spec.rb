@@ -17,6 +17,10 @@ RSpec.describe MyProfileController, type: :controller do
     describe '#update' do
       it_behaves_like 'rejects access to unauthorized users', :patch, :update, { id: 1 }
     end
+
+    describe '#destroy_avatar' do
+      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_avatar
+    end
   end
 
   context 'for authorized users' do
@@ -88,6 +92,16 @@ RSpec.describe MyProfileController, type: :controller do
 
         expect(user.active).to eq(false)
         expect(user.password).to eq(password)
+      end
+    end
+
+    describe "#destroy_avatar" do
+      let!(:user) { create :user }
+
+      it "deletes the user's avatar" do
+        delete :destroy_avatar
+
+        expect(user.avatar.attached?).to eq(false)
       end
     end
   end

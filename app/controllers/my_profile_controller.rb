@@ -16,6 +16,10 @@ class MyProfileController < ApplicationController
     end
   end
 
+  def destroy_avatar
+    @user.avatar.purge
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
