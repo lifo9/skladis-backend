@@ -29,6 +29,10 @@ RSpec.describe ContactsController, type: :controller do
     describe '#destroy' do
       it_behaves_like 'rejects access to unauthorized users', :delete, :destroy, { id: 1 }
     end
+
+    describe '#destroy_avatar' do
+      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_avatar, { id: 1 }
+    end
   end
 
   context 'for authorized users' do
@@ -153,6 +157,19 @@ RSpec.describe ContactsController, type: :controller do
         expect {
           delete :destroy, params: { id: contact.id }
         }.to change(Contact, :count).by(-1)
+      end
+    end
+
+    describe "#destroy_avatar" do
+      let!(:contact) { create :contact }
+
+      it "deletes the contact's avatar" do
+        expect(contact.avatar.attached?).to eq(true)
+
+        delete :destroy_avatar, params: { id: contact.id }
+        contact.reload
+
+        expect(contact.avatar.attached?).to eq(false)
       end
     end
   end

@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
   before_action :authorize_access_request!
-  before_action :set_contact, only: %i[ show update destroy ]
+  before_action :set_contact, only: %i[ show update destroy destroy_avatar ]
 
   # GET /contacts
   def index
@@ -43,6 +43,11 @@ class ContactsController < ApplicationController
   # DELETE /contacts/1
   def destroy
     @contact.destroy
+  end
+
+  # DELETE /contacts/1/avatar
+  def destroy_avatar
+    @contact.avatar.purge
   end
 
   private

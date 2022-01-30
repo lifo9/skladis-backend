@@ -7,6 +7,14 @@ FactoryBot.define do
     password { 'password' }
     active { true }
 
+    after(:build) do |user|
+      user.avatar.attach(
+        io: File.open(Rails.root.join('spec', 'fixtures', 'files', 'avatar.jpg')),
+        filename: 'avatar.jpg',
+        content_type: 'image/jpeg'
+      )
+    end
+
     factory :admin do
       after(:create) { |user| user.add_role(:admin) }
     end

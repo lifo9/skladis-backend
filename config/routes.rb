@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     post '', action: :create
     patch ':id', action: :update
     delete ':id', action: :destroy
+    delete ':id/avatar', action: :destroy_avatar
   end
 
   # Users

@@ -106,7 +106,7 @@ RSpec.describe UsersController, type: :controller do
           post :create, params: { user: valid_params }
 
           expect(response).to have_http_status(:created)
-          expect(response_json.size).to eq 1
+          expect(response_json.size).to eq 2
           expect(response_json["data"]).to have_key "id"
         end
       end
@@ -217,8 +217,11 @@ RSpec.describe UsersController, type: :controller do
       let!(:user) { create :user }
 
       it "deletes the user's avatar" do
-        delete :destroy_avatar, params: { id: user.id }
+        expect(user.avatar.attached?).to eq(true)
 
+        delete :destroy_avatar, params: { id: user.id }
+        user.reload
+        
         expect(user.avatar.attached?).to eq(false)
       end
     end
