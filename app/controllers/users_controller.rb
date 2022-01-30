@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   def show
     authorize @user
 
-    render json: UserSerializer.new(@user, { params: { admin: true } })
+    render json: UserSerializer.new(@user, { params: { admin: true }, include: [:roles] })
   end
 
   # POST /users
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     authorize User
 
     @user = User.new(user_params)
-    serialized_user = UserSerializer.new(@user)
+    serialized_user = UserSerializer.new(@user, { include: [:roles] })
 
     if @user.save
       render json: serialized_user, status: :created
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     authorize User
 
     if @user.update(user_params)
-      render json: UserSerializer.new(@user)
+      render json: UserSerializer.new(@user, { include: [:roles] })
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
   # DELETE /users/1/avatar
   def destroy_avatar
     authorize @user
-    
+
     @user.avatar.purge
   end
 
