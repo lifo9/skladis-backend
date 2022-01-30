@@ -4,11 +4,12 @@ class User < ApplicationRecord
   include Orderable
 
   after_create :assign_default_role
+  after_save_commit :resize_avatar
 
   has_secure_password
   has_one :registration_invitation, dependent: :destroy
   has_one_attached :avatar do |attachable|
-    attachable.variant :thumb, resize_to_limit: [256, 256]
+    attachable.variant(:thumb, resize_to_limit: [256, 256])
   end
 
   validates :email, :uniqueness => { :case_sensitive => false }
@@ -19,5 +20,11 @@ class User < ApplicationRecord
 
   def assign_default_role
     self.add_role(:user) if self.roles.blank?
+  end
+
+  private
+
+  def resize_avatar
+    self.avatar.variant(:thumb).processed if self.avatar.attached?
   end
 end
