@@ -51,6 +51,11 @@ gem 'rolify'
 #-------------------------------------------------------------------------------
 # Assets
 #-------------------------------------------------------------------------------
+# Provides higher-level image processing helpers that are commonly needed when handling image uploads.
+gem "image_processing"
+
+# A ruby wrapper for ImageMagick or GraphicsMagick command line.
+gem "mini_magick"
 
 #-------------------------------------------------------------------------------
 # 3rd-party & APIs

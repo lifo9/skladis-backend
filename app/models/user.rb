@@ -7,16 +7,17 @@ class User < ApplicationRecord
 
   has_secure_password
   has_one :registration_invitation, dependent: :destroy
-  has_one_attached :avatar
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumb, resize_to_limit: [256, 256]
+  end
 
   validates :email, :uniqueness => { :case_sensitive => false }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
+  PERMITTED_PARAMS = [:first_name, :last_name, :email, :phone, :password, :avatar, :active, role_ids: []].freeze
+  MY_PROFILE_PERMITTED_PARAMS = [:first_name, :last_name, :email, :phone, :password, :avatar].freeze
+
   def assign_default_role
     self.add_role(:user) if self.roles.blank?
   end
-
-  PERMITTED_PARAMS = [:first_name, :last_name, :email, :phone, :password, :avatar, :active, role_ids: []].freeze
-
-  MY_PROFILE_PERMITTED_PARAMS = [:first_name, :last_name, :email, :phone, :password, :avatar].freeze
 end

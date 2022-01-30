@@ -9,6 +9,6 @@ class UserSerializer < ApiSerializer
   }
 
   attribute :avatar do |user|
-    attachment_url(user.avatar) if user.avatar.attached?
+    attachment_url(user.avatar.variant(:thumb)) if user.avatar.attached?
   end
 end
