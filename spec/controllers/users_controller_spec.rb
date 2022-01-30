@@ -43,6 +43,10 @@ RSpec.describe UsersController, type: :controller do
     describe '#deactivate' do
       it_behaves_like 'rejects access to unauthorized users', :delete, :deactivate, { id: 1 }
     end
+
+    describe '#destroy_avatar' do
+      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_avatar, { id: 1 }
+    end
   end
 
   context 'for authorized users' do
@@ -206,6 +210,16 @@ RSpec.describe UsersController, type: :controller do
         user.reload
 
         expect(user.active).to eq(false)
+      end
+    end
+
+    describe "#destroy_avatar" do
+      let!(:user) { create :user }
+
+      it "deletes the user's avatar" do
+        delete :destroy_avatar, params: { id: user.id }
+
+        expect(user.avatar.attached?).to eq(false)
       end
     end
   end

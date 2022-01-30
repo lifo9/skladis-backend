@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     post ':id/activation', action: :activate
     delete ':id/activation', action: :deactivate
     delete ':id', action: :destroy
+    delete ':id/avatar', action: :destroy_avatar
   end
 
   # Roles
