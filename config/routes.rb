@@ -43,6 +43,11 @@ Rails.application.routes.draw do
     delete 'avatar', action: :destroy_avatar
   end
 
+  # Image auth
+  scope 'verify-image', controller: :verify_image do
+    get ':sgid', action: :verify_image
+  end
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "application#bad_request"
 end
