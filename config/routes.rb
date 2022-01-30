@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     post ':id/activation', action: :activate
     delete ':id/activation', action: :deactivate
     delete ':id', action: :destroy
+    delete ':id/avatar', action: :destroy_avatar
   end
 
   # Roles
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
   scope 'my-profile', controller: :my_profile do
     get '', action: :index
     patch '', action: :update
+    delete 'avatar', action: :destroy_avatar
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

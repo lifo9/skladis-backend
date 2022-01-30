@@ -63,6 +63,22 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     api-pagination (5.0.0)
+    aws-eventstream (1.2.0)
+    aws-partitions (1.551.0)
+    aws-sdk-core (3.125.5)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.525.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.53.0)
+      aws-sdk-core (~> 3, >= 3.125.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.111.3)
+      aws-sdk-core (~> 3, >= 3.125.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.4)
+    aws-sigv4 (1.4.0)
+      aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
     bootsnap (1.9.3)
       msgpack (~> 1.0)
@@ -82,6 +98,7 @@ GEM
       activesupport (>= 5.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
+    jmespath (1.5.0)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
     jwt (2.3.0)
@@ -108,6 +125,8 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
+      racc (~> 1.4)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     pg (1.2.3)
     public_suffix (4.0.6)
@@ -193,6 +212,7 @@ PLATFORMS
 
 DEPENDENCIES
   api-pagination
+  aws-sdk-s3 (~> 1.111)
   bcrypt
   bootsnap
   byebug

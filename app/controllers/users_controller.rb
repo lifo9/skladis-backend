@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authorize_access_request!
-  before_action :set_user, only: %i[ show update destroy activate deactivate ]
+  before_action :set_user, only: %i[ show update destroy activate deactivate destroy_avatar ]
 
   # GET /users
   def index
@@ -53,6 +53,13 @@ class UsersController < ApplicationController
     authorize @user
 
     @user.destroy
+  end
+
+  # DELETE /users/1/avatar
+  def destroy_avatar
+    authorize @user
+    
+    @user.avatar.purge
   end
 
   # POST /users/1/activation

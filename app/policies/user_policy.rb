@@ -19,6 +19,10 @@ class UserPolicy < ApplicationPolicy
     user.has_role? :admin
   end
 
+  def destroy_avatar?
+    user.has_role? :admin
+  end
+
   def activate?
     user.has_role? :admin
   end

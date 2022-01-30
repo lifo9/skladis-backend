@@ -1,5 +1,4 @@
-class UserSerializer
-  include JSONAPI::Serializer
+class UserSerializer < ApiSerializer
 
   attributes :email, :first_name, :last_name, :phone
 
@@ -8,4 +7,8 @@ class UserSerializer
   attribute :active, if: Proc.new { |_, params|
     params && params[:admin] == true
   }
+
+  attribute :avatar do |user|
+    attachment_url(user.avatar) if user.avatar.attached?
+  end
 end

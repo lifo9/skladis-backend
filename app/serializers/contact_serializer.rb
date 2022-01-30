@@ -1,5 +1,4 @@
-class ContactSerializer
-  include JSONAPI::Serializer
+class ContactSerializer < ApiSerializer
 
   attributes *Contact::PERMITTED_PARAMS
 end
