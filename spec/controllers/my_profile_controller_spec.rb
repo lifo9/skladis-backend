@@ -100,7 +100,8 @@ RSpec.describe MyProfileController, type: :controller do
 
       it "deletes the user's avatar" do
         delete :destroy_avatar
-
+        user.reload
+        
         expect(user.avatar.attached?).to eq(false)
       end
     end
