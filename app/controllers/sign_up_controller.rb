@@ -6,9 +6,6 @@ class SignUpController < ApplicationController
     user = User.new(user_params)
     if user.save
       invitation.update!(user: user, used: true)
-      payload = { user_id: user.id }
-      session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
-      tokens = session.login
 
       UserMailer.with(user: user).registration.deliver_later
 
