@@ -1,4 +1,4 @@
-FROM docker.io/ruby:3.0.3-alpine
+FROM docker.io/ruby:3.1.0-alpine
 
 # Minimal requirements to run a Rails app
 RUN apk add --no-cache --update build-base \
