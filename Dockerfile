@@ -6,7 +6,8 @@ RUN apk add --no-cache --update build-base \
     git \
     postgresql-dev \
     tzdata \
-    imagemagick
+    imagemagick \
+    libc6-compat
 
 RUN gem install foreman bundle
 
