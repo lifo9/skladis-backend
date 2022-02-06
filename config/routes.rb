@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   end
 
   # Vendors
-  scope 'vendor', controller: :vendors do
+  scope 'vendors', controller: :vendors do
     get '', action: :index
     get ':id', action: :show
     post '', action: :create
