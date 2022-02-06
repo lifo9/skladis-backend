@@ -6,6 +6,8 @@ class Vendor < ApplicationRecord
     attachable.variant(:thumb, resize_to_limit: [256, 256])
   end
 
+  after_save_commit :resize_logo
+
   PERMITTED_PARAMS = [:name, :url, :logo].freeze
 
   private
