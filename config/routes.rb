@@ -54,6 +54,15 @@ Rails.application.routes.draw do
     delete ':id/logo', action: :destroy_logo
   end
 
+  # Warehouses
+  scope 'warehouses', controller: :warehouses do
+    get '', action: :index
+    get ':id', action: :show
+    post '', action: :create
+    patch ':id', action: :update
+    delete ':id', action: :destroy
+  end
+
   # Image auth
   scope 'verify-image', controller: :verify_image do
     get ':sgid', action: :verify_image

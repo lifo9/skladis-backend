@@ -1,0 +1,69 @@
+class WarehousesController < ApplicationController
+  before_action :authorize_access_request!
+  before_action :set_warehouse, only: %i[ show update destroy ]
+
+  # GET /warehouses
+  def index
+    authorize Warehouse.all
+
+    if params[:search]
+      @warehouses = Warehouse.search_all_fields(params[:search])
+    else
+      @warehouses = paginate Warehouse.all
+    end
+    @warehouses = @warehouses.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+
+    render json: WarehouseSerializer.new(@warehouses)
+  end
+
+  # GET /warehouses/1
+  def show
+    authorize @warehouse
+
+    render json: WarehouseSerializer.new(@warehouse)
+  end
+
+  # POST /warehouses
+  def create
+    authorize Warehouse
+
+    @warehouse = Warehouse.new(warehouse_params)
+    serialized_warehouse = WarehouseSerializer.new(@warehouse)
+
+    if @warehouse.save
+      render json: serialized_warehouse, status: :created
+    else
+      render json: @warehouse.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /warehouses/1
+  def update
+    authorize Warehouse
+
+    if @warehouse.update(warehouse_params)
+      render json: WarehouseSerializer.new(@warehouse)
+    else
+      render json: @warehouse.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /warehouses/1
+  def destroy
+    authorize @warehouse
+
+    @warehouse.destroy
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_warehouse
+    @warehouse = Warehouse.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def warehouse_params
+    params.fetch(:warehouse, {}).permit(Warehouse::PERMITTED_PARAMS)
+  end
+end

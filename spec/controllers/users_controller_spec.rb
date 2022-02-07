@@ -8,44 +8,36 @@ RSpec.describe UsersController, type: :controller do
       sign_in_as user
     end
 
-    shared_examples_for 'rejects access to unauthorized users' do |method, action, params = {}|
-      it 'should not be accessible' do
-        send(method.to_sym, action, params: params)
-
-        expect(response.status).to eq 403
-      end
-    end
-
     describe '#index' do
-      it_behaves_like 'rejects access to unauthorized users', :get, :index
+      it_behaves_like 'rejects access to unauthorized users', :get, :index, {}, [403]
     end
 
     describe '#show' do
-      it_behaves_like 'rejects access to unauthorized users', :get, :show, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :get, :show, { id: 1 }, [403, 404]
     end
 
     describe '#create' do
-      it_behaves_like 'rejects access to unauthorized users', :post, :create
+      it_behaves_like 'rejects access to unauthorized users', :post, :create, {}, [403]
     end
 
     describe '#update' do
-      it_behaves_like 'rejects access to unauthorized users', :patch, :update, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :patch, :update, { id: 1 }, [403, 404]
     end
 
     describe '#destroy' do
-      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy, { id: 1 }, [403, 404]
     end
 
     describe '#activate' do
-      it_behaves_like 'rejects access to unauthorized users', :post, :activate, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :post, :activate, { id: 1 }, [403, 404]
     end
 
     describe '#deactivate' do
-      it_behaves_like 'rejects access to unauthorized users', :delete, :deactivate, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :delete, :deactivate, { id: 1 }, [403, 404]
     end
 
     describe '#destroy_avatar' do
-      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_avatar, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_avatar, { id: 1 }, [403, 404]
     end
   end
 
@@ -221,7 +213,7 @@ RSpec.describe UsersController, type: :controller do
 
         delete :destroy_avatar, params: { id: user.id }
         user.reload
-        
+
         expect(user.avatar.attached?).to eq(false)
       end
     end

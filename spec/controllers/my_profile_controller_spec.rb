@@ -2,24 +2,16 @@ require 'rails_helper'
 
 RSpec.describe MyProfileController, type: :controller do
   context 'for unauthorized users' do
-    shared_examples_for 'rejects access to unauthorized users' do |method, action, params = {}|
-      it 'should not be accessible' do
-        send(method.to_sym, action, params: params)
-
-        expect(response.status).to eq 401
-      end
-    end
-
     describe '#index' do
-      it_behaves_like 'rejects access to unauthorized users', :get, :index
+      it_behaves_like 'rejects access to unauthorized users', :get, :index, {}, [401]
     end
 
     describe '#update' do
-      it_behaves_like 'rejects access to unauthorized users', :patch, :update, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :patch, :update, { id: 1 }, [401]
     end
 
     describe '#destroy_avatar' do
-      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_avatar
+      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_avatar, {}, [401]
     end
   end
 
@@ -101,7 +93,7 @@ RSpec.describe MyProfileController, type: :controller do
       it "deletes the user's avatar" do
         delete :destroy_avatar
         user.reload
-        
+
         expect(user.avatar.attached?).to eq(false)
       end
     end
