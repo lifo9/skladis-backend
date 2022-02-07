@@ -63,7 +63,8 @@ RSpec.describe WarehousesController, type: :controller do
         street_name: '52nd Street',
         street_number: '123',
         city: 'New York',
-        country: 'USA'
+        country: 'USA',
+        coordinates: [1, 2]
       } }
 
       context "with valid parameters" do
@@ -90,7 +91,8 @@ RSpec.describe WarehousesController, type: :controller do
         street_name: '51nd Street',
         street_number: '321',
         city: 'New New York',
-        country: 'USAA'
+        country: 'USAA',
+        coordinates: [2, 3]
       } }
 
       context "with valid parameters" do
@@ -103,6 +105,7 @@ RSpec.describe WarehousesController, type: :controller do
           expect(warehouse.street_number).to eq(valid_new_params[:street_number])
           expect(warehouse.city).to eq(valid_new_params[:city])
           expect(warehouse.country).to eq(valid_new_params[:country])
+          expect(warehouse.coordinates.to_a).to eq(valid_new_params[:coordinates])
         end
         it "renders a JSON response with the warehouse" do
           patch :update, params: { id: warehouse.id, warehouse: valid_new_params }
