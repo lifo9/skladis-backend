@@ -2,36 +2,28 @@ require 'rails_helper'
 
 RSpec.describe VendorsController, type: :controller do
   context 'for unauthorized users' do
-    shared_examples_for 'rejects access to unauthorized users' do |method, action, params = {}|
-      it 'should not be accessible' do
-        send(method.to_sym, action, params: params)
-
-        expect(response.status).to eq 401
-      end
-    end
-
     describe '#index' do
-      it_behaves_like 'rejects access to unauthorized users', :get, :index
+      it_behaves_like 'rejects access to unauthorized users', :get, :index, {}, [401]
     end
 
     describe '#show' do
-      it_behaves_like 'rejects access to unauthorized users', :get, :show, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :get, :show, { id: 1 }, [401]
     end
 
     describe '#create' do
-      it_behaves_like 'rejects access to unauthorized users', :post, :create
+      it_behaves_like 'rejects access to unauthorized users', :post, :create, {}, [401]
     end
 
     describe '#update' do
-      it_behaves_like 'rejects access to unauthorized users', :patch, :update, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :patch, :update, { id: 1 }, [401]
     end
 
     describe '#destroy' do
-      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy, { id: 1 }, [401]
     end
 
     describe '#destroy_logo' do
-      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_logo, { id: 1 }
+      it_behaves_like 'rejects access to unauthorized users', :delete, :destroy_logo, { id: 1 }, [401]
     end
   end
 
