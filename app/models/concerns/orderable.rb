@@ -6,7 +6,7 @@ module Orderable
       all_attributes = name
                          .constantize
                          .reflect_on_all_associations
-                         .map { |assoc| [[assoc.name, assoc.plural_name], assoc.active_record.column_names] }.to_h
+                         .map { |assoc| [[assoc.name, assoc.plural_name], assoc.options[:class_name]&.constantize&.column_names || []] }.to_h
       allowed_assoc_order_by_strings = all_attributes
                                          .map { |name_plural_tuple, attributes| attributes.map { |attr| "#{name_plural_tuple[1]}.#{attr}" } }
                                          .flatten
