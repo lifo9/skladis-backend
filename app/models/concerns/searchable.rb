@@ -12,7 +12,7 @@ module Searchable
                                   assoc.options[:class_name]&.constantize&.columns
                                        .select { |col| col.type == :string } || []
                                  ] }.to_h
-      join_tables = *all_assoc_attributes.select { |cols| cols.present? }.keys.map { |key| key[0] }
+      join_tables = *all_assoc_attributes.select { |cols| cols.present? }.keys.map { |name_plural_tuple| name_plural_tuple[0] }
       searchable_cols_strings = all_assoc_attributes
                                   .map { |name_plural_tuple, attributes| attributes.map { |col| { type: col.type, name: "#{name_plural_tuple[1]}.#{col.name}" } } }
                                   .flatten
