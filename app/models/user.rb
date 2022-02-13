@@ -7,7 +7,7 @@ class User < ApplicationRecord
   after_save_commit :resize_avatar
 
   has_secure_password
-  has_one :registration_invitation, dependent: :destroy
+  has_one :registration_invitation, dependent: :destroy, class_name: RegistrationInvitation.to_s
   has_one_attached :avatar do |attachable|
     attachable.variant(:thumb, resize_to_limit: [256, 256])
   end
