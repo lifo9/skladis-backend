@@ -6,6 +6,7 @@ module Orderable
       all_attributes = name
                          .constantize
                          .reflect_on_all_associations
+                         .select { |assoc| !assoc.name.to_s.include?('attachment') && !assoc.name.to_s.include?('blob') }
                          .map { |assoc| [[assoc.name, assoc.plural_name], assoc.options[:class_name]&.constantize&.column_names || []] }.to_h
       allowed_assoc_order_by_strings = all_attributes
                                          .map { |name_plural_tuple, attributes| attributes.map { |attr| "#{name_plural_tuple[1]}.#{attr}" } }
@@ -21,7 +22,7 @@ module Orderable
         assoc_plural = order_by.split('.')[0]
         assoc_join = all_attributes.keys.to_h.key(assoc_plural)
         if assoc_join
-          joins(assoc_join).order(order_by ? order_by : :id => order ? order.to_sym : :asc)
+          left_outer_joins(assoc_join).order(order_by ? order_by : :id => order ? order.to_sym : :asc)
         end
       else
         order(order_by ? order_by : :id => order ? order.to_sym : :asc)

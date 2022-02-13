@@ -3,8 +3,25 @@ module Searchable
 
   included do
     scope :search_all_fields, -> (searchTerm) {
-      where("#{columns.map { |col| col.type == :string ? "COALESCE(#{col.name}, lower(#{col.name}), '')" : col.name } # handle null values
-                      .join(' || ')} like ?", "%#{searchTerm.downcase}%")
+      all_asoc_attributes = name
+                              .constantize
+                              .reflect_on_all_associations
+                              .select { |assoc| !assoc.name.to_s.include?('attachment') && !assoc.name.to_s.include?('blob') }
+                              .map { |assoc|
+                                [[assoc.name, assoc.plural_name],
+                                 assoc.options[:class_name]&.constantize&.columns
+                                      .select { |col| col.type == :string } || []
+                                ] }.to_h
+      join_tables = *all_asoc_attributes.select { |cols| cols.present? }.keys.map { |key| key[0] }
+      searchable_cols_strings = all_asoc_attributes
+                                  .map { |name_plural_tuple, attributes| attributes.map { |col| { type: col.type, name: "#{name_plural_tuple[1]}.#{col.name}" } } }
+                                  .flatten
+      searchable_cols_strings = searchable_cols_strings + columns.select { |col| col.type == :string }
+                                                                 .map { |col| { type: col.type, name: "#{name.constantize.table_name}.#{col.name}" } }
+
+      left_outer_joins(join_tables)
+        .where("#{searchable_cols_strings.map { |col| "COALESCE(lower(#{col[:name]}), #{col[:name]}, '')" } # handle null values
+                                         .join(' || ')} LIKE ?", "%#{searchTerm.downcase}%")
     }
   end
 end
