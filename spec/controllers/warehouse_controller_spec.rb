@@ -63,6 +63,7 @@ RSpec.describe WarehousesController, type: :controller do
         street_name: '52nd Street',
         street_number: '123',
         city: 'New York',
+        zip: '123',
         country: 'USA',
         coordinates: [1, 2]
       } }
@@ -91,6 +92,7 @@ RSpec.describe WarehousesController, type: :controller do
         street_name: '51nd Street',
         street_number: '321',
         city: 'New New York',
+        zip: '123',
         country: 'USAA',
         coordinates: [2, 3]
       } }
@@ -104,6 +106,7 @@ RSpec.describe WarehousesController, type: :controller do
           expect(warehouse.street_name).to eq(valid_new_params[:street_name])
           expect(warehouse.street_number).to eq(valid_new_params[:street_number])
           expect(warehouse.city).to eq(valid_new_params[:city])
+          expect(warehouse.zip).to eq(valid_new_params[:zip])
           expect(warehouse.country).to eq(valid_new_params[:country])
           expect(warehouse.coordinates.to_a).to eq(valid_new_params[:coordinates])
         end

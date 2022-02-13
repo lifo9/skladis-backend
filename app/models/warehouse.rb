@@ -4,5 +4,5 @@ class Warehouse < ApplicationRecord
 
   has_many :rooms, class_name: Room.to_s
 
-  PERMITTED_PARAMS = [:name, :street_name, :street_number, :city, :country, coordinates: []].freeze
+  PERMITTED_PARAMS = [:name, :street_name, :street_number, :city, :zip, :country, coordinates: []].freeze
 end
