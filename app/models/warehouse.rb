@@ -2,8 +2,18 @@ class Warehouse < ApplicationRecord
   include Searchable
   include Orderable
 
-  belongs_to :address, class_name: Address.to_s, dependent: :destroy
+  after_destroy_commit :destroy_address
+
+  belongs_to :address, class_name: Address.to_s
   has_many :rooms, class_name: Room.to_s
 
   PERMITTED_PARAMS = [:name, :address_id].freeze
+
+  private
+
+  def destroy_address
+    self.address.destroy
+  rescue ActiveRecord::InvalidForeignKey => _
+    # if there is still an association, do not destroy the address - ugly, but works...
+  end
 end
