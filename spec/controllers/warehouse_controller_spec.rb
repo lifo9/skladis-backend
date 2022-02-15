@@ -74,7 +74,7 @@ RSpec.describe WarehousesController, type: :controller do
             post :create, params: { warehouse: valid_params }
           }.to change(Warehouse, :count).by(1)
         end
-        it "renders a JSON response with the new Vendor" do
+        it "renders a JSON response with the new Warehouse" do
           post :create, params: { warehouse: valid_params }
 
           expect(response).to have_http_status(:created)
