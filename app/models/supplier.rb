@@ -1,13 +1,13 @@
-class Warehouse < ApplicationRecord
+class Supplier < ApplicationRecord
   include Searchable
   include Orderable
 
   after_destroy_commit :destroy_address
 
   belongs_to :address, class_name: Address.to_s
-  has_many :rooms, class_name: Room.to_s
+  belongs_to :contact, class_name: Contact.to_s
 
-  PERMITTED_PARAMS = [:name].freeze
+  PERMITTED_PARAMS = [:name, :ico, :dic, :url, :free_delivery_from, :contact_id].freeze
 
   private
 

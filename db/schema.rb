@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_13_193230) do
+ActiveRecord::Schema[7.0].define(version: 2022_02_15_203700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_13_193230) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "street_name"
+    t.string "street_number"
+    t.string "city"
+    t.string "zip"
+    t.string "country"
+    t.point "coordinates"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -79,6 +90,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_13_193230) do
     t.index ["warehouse_id"], name: "index_rooms_on_warehouse_id"
   end
 
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name"
+    t.string "ico"
+    t.string "dic"
+    t.string "url"
+    t.bigint "address_id"
+    t.bigint "contact_id"
+    t.decimal "free_delivery_from"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_suppliers_on_address_id"
+    t.index ["contact_id"], name: "index_suppliers_on_contact_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -107,18 +132,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_13_193230) do
 
   create_table "warehouses", force: :cascade do |t|
     t.string "name"
-    t.string "street_name"
-    t.string "street_number"
-    t.string "city"
-    t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.point "coordinates"
-    t.string "zip"
+    t.bigint "address_id"
+    t.index ["address_id"], name: "index_warehouses_on_address_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"
+  add_foreign_key "suppliers", "addresses"
+  add_foreign_key "suppliers", "contacts"
+  add_foreign_key "warehouses", "addresses"
 end

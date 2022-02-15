@@ -1,7 +1,5 @@
 class WarehouseSerializer < ApiSerializer
   attributes *Warehouse::PERMITTED_PARAMS
 
-  attribute :coordinates do |warehouse|
-    warehouse.coordinates.to_a
-  end
+  belongs_to :address
 end

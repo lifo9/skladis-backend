@@ -72,6 +72,15 @@ Rails.application.routes.draw do
     delete ':id', action: :destroy
   end
 
+  # Suppliers
+  scope 'suppliers', controller: :suppliers do
+    get '', action: :index
+    get ':id', action: :show
+    post '', action: :create
+    patch ':id', action: :update
+    delete ':id', action: :destroy
+  end
+
   # Image auth
   scope 'verify-image', controller: :verify_image do
     get ':sgid', action: :verify_image
