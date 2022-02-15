@@ -73,7 +73,7 @@ Rails.application.routes.draw do
   end
 
   # Suppliers
-  scope 'rooms', controller: :suppliers do
+  scope 'suppliers', controller: :suppliers do
     get '', action: :index
     get ':id', action: :show
     post '', action: :create
