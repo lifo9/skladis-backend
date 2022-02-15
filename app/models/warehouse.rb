@@ -7,7 +7,7 @@ class Warehouse < ApplicationRecord
   belongs_to :address, class_name: Address.to_s
   has_many :rooms, class_name: Room.to_s
 
-  PERMITTED_PARAMS = [:name, :address_id].freeze
+  PERMITTED_PARAMS = [:name].freeze
 
   private
 
