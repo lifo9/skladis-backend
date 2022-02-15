@@ -78,7 +78,7 @@ RSpec.describe WarehousesController, type: :controller do
           post :create, params: { warehouse: valid_params }
 
           expect(response).to have_http_status(:created)
-          expect(response_json.size).to eq 1
+          expect(response_json.size).to eq 2
           expect(response_json["data"]).to have_key "id"
         end
       end
@@ -103,12 +103,12 @@ RSpec.describe WarehousesController, type: :controller do
           warehouse.reload
 
           expect(warehouse.name).to eq(valid_new_params[:name])
-          expect(warehouse.street_name).to eq(valid_new_params[:street_name])
-          expect(warehouse.street_number).to eq(valid_new_params[:street_number])
-          expect(warehouse.city).to eq(valid_new_params[:city])
-          expect(warehouse.zip).to eq(valid_new_params[:zip])
-          expect(warehouse.country).to eq(valid_new_params[:country])
-          expect(warehouse.coordinates.to_a).to eq(valid_new_params[:coordinates])
+          expect(warehouse.address.street_name).to eq(valid_new_params[:street_name])
+          expect(warehouse.address.street_number).to eq(valid_new_params[:street_number])
+          expect(warehouse.address.city).to eq(valid_new_params[:city])
+          expect(warehouse.address.zip).to eq(valid_new_params[:zip])
+          expect(warehouse.address.country).to eq(valid_new_params[:country])
+          expect(warehouse.address.coordinates.to_a).to eq(valid_new_params[:coordinates])
         end
         it "renders a JSON response with the warehouse" do
           patch :update, params: { id: warehouse.id, warehouse: valid_new_params }

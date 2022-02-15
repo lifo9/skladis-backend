@@ -13,14 +13,14 @@ class WarehousesController < ApplicationController
     end
     @warehouses = @warehouses.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
 
-    render json: WarehouseSerializer.new(@warehouses)
+    render json: WarehouseSerializer.new(@warehouses, { include: [:address] })
   end
 
   # GET /warehouses/1
   def show
     authorize @warehouse
 
-    render json: WarehouseSerializer.new(@warehouse)
+    render json: WarehouseSerializer.new(@warehouse, { include: [:address] })
   end
 
   # POST /warehouses
@@ -28,7 +28,17 @@ class WarehousesController < ApplicationController
     authorize Warehouse
 
     @warehouse = Warehouse.new(warehouse_params)
-    serialized_warehouse = WarehouseSerializer.new(@warehouse)
+
+    address = Address.find_by(address_params_without_coordinates)
+    if address.present?
+      address.coordinates = address_params[:coordinates]
+    else
+      address = Address.new(address_params)
+    end
+    address.save!
+    @warehouse.address = address
+
+    serialized_warehouse = WarehouseSerializer.new(@warehouse, { include: [:address] })
 
     if @warehouse.save
       render json: serialized_warehouse, status: :created
@@ -41,8 +51,17 @@ class WarehousesController < ApplicationController
   def update
     authorize Warehouse
 
+    address = Address.find_by(address_params_without_coordinates)
+    if address.present?
+      address.coordinates = address_params[:coordinates]
+    else
+      address = Address.new(address_params)
+    end
+    address.save!
+    @warehouse.address = address
+
     if @warehouse.update(warehouse_params)
-      render json: WarehouseSerializer.new(@warehouse)
+      render json: WarehouseSerializer.new(@warehouse, { include: [:address] })
     else
       render json: @warehouse.errors, status: :unprocessable_entity
     end
@@ -65,5 +84,13 @@ class WarehousesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def warehouse_params
     params.fetch(:warehouse, {}).permit(Warehouse::PERMITTED_PARAMS)
+  end
+
+  def address_params
+    params.fetch(:warehouse, {}).permit(Address::PERMITTED_PARAMS)
+  end
+
+  def address_params_without_coordinates
+    params.fetch(:warehouse, {}).permit(Address::PERMITTED_PARAMS_WITHOUT_COORDINATES)
   end
 end
