@@ -7,7 +7,7 @@ class Supplier < ApplicationRecord
   belongs_to :address, class_name: Address.to_s
   belongs_to :contact, class_name: Contact.to_s
 
-  PERMITTED_PARAMS = [:name, :ico, :dic, :url, :contact_id].freeze
+  PERMITTED_PARAMS = [:name, :ico, :dic, :url, :free_delivery_from, :contact_id].freeze
 
   private
 

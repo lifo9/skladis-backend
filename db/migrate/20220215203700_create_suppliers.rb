@@ -5,8 +5,8 @@ class CreateSuppliers < ActiveRecord::Migration[7.0]
       t.string :ico
       t.string :dic
       t.string :url
-      t.references :address
-      t.references :contact
+      t.references :address, foreign_key: true
+      t.references :contact, foreign_key: true
       t.decimal :free_delivery_from
       t.timestamps
     end
