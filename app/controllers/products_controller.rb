@@ -13,14 +13,14 @@ class ProductsController < ApplicationController
     end
     @products = @products.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
 
-    render json: ProductSerializer.new(@products)
+    render json: ProductSerializer.new(@products, { include: [:suppliers] })
   end
 
   # GET /products/1
   def show
     authorize @product
 
-    render json: ProductSerializer.new(@product)
+    render json: ProductSerializer.new(@product, { include: [:suppliers], params: { image_type: :normal } })
   end
 
   # POST /products
@@ -28,7 +28,7 @@ class ProductsController < ApplicationController
     authorize Product
 
     @product = Product.new(product_params)
-    serialized_product = ProductSerializer.new(@product)
+    serialized_product = ProductSerializer.new(@product, { include: [:suppliers] })
 
     if @product.save
       render json: serialized_product, status: :created
@@ -42,7 +42,7 @@ class ProductsController < ApplicationController
     authorize Product
 
     if @product.update(product_params)
-      render json: ProductSerializer.new(@product)
+      render json: ProductSerializer.new(@product, { include: [:suppliers] })
     else
       render json: @product.errors, status: :unprocessable_entity
     end
