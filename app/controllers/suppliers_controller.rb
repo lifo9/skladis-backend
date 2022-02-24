@@ -7,7 +7,7 @@ class SuppliersController < ApplicationController
     authorize Supplier.all
 
     if params[:search]
-      @suppliers = Supplier.search_all_fields(params[:search])
+      @suppliers = paginate Supplier.search_all_fields(params[:search])
     else
       @suppliers = paginate Supplier.all
     end

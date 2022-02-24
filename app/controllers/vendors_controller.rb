@@ -7,7 +7,7 @@ class VendorsController < ApplicationController
     authorize Vendor.all
 
     if params[:search]
-      @vendors = Vendor.search_all_fields(params[:search])
+      @vendors = paginate Vendor.search_all_fields(params[:search])
     else
       @vendors = paginate Vendor.all
     end

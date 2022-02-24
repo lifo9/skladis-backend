@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     authorize User.all
 
     if params[:search]
-      @users = User.search_all_fields(params[:search])
+      @users = paginate User.search_all_fields(params[:search])
     else
       @users = paginate User.all
     end

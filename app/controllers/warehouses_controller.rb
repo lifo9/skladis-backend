@@ -7,7 +7,7 @@ class WarehousesController < ApplicationController
     authorize Warehouse.all
 
     if params[:search]
-      @warehouses = Warehouse.search_all_fields(params[:search])
+      @warehouses = paginate Warehouse.search_all_fields(params[:search])
     else
       @warehouses = paginate Warehouse.all
     end

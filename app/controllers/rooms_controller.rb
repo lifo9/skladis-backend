@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
     authorize Room.all
 
     if params[:search]
-      @rooms = Room.search_all_fields(params[:search])
+      @rooms = paginate Room.search_all_fields(params[:search])
     else
       @rooms = paginate Room.all
     end

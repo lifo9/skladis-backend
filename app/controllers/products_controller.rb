@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
     authorize Product.all
 
     if params[:search]
-      @products = Product.search_all_fields(params[:search])
+      @products = paginate Product.search_all_fields(params[:search])
     else
       @products = paginate Product.all
     end
