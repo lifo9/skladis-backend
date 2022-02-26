@@ -41,7 +41,7 @@ class ProductsController < ApplicationController
   def update
     authorize Product
 
-    if @product.update(product_params)
+    if @product.update(parse_images(product_params))
       render json: ProductSerializer.new(@product, { include: [:suppliers] })
     else
       render json: @product.errors, status: :unprocessable_entity
@@ -65,5 +65,21 @@ class ProductsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def product_params
     params.fetch(:product, {}).permit(Product::PERMITTED_PARAMS)
+  end
+
+  def parse_images(params)
+    if params[:images].present?
+      params[:images] = params[:images].map do |image|
+        if image.is_a?(String) && image.to_i.to_s == image
+          image_object = @product.images.find_by(id: image)
+          image_object.blob
+        else
+          image
+        end
+      end
+      return params
+    end
+
+    return params
   end
 end

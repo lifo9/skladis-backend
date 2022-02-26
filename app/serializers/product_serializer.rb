@@ -8,7 +8,10 @@ class ProductSerializer < ApiSerializer
 
     product.images.each do |image|
       type = params[:image_type] || :thumb
-      images_url.push(attachment_url(image.variant(type)))
+      images_url.push({
+                        id: image.id,
+                        url: attachment_url(image.variant(type))
+                      })
     end
 
     images_url
