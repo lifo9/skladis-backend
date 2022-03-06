@@ -6,12 +6,7 @@ class ProductsController < ApplicationController
   def index
     authorize Product.all
 
-    if params[:search]
-      @products = paginate Product.search_all_fields(params[:search])
-    else
-      @products = paginate Product.all
-    end
-    @products = @products.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    @products = api_index(Product, params)
 
     render json: ProductSerializer.new(@products, { include: [:suppliers] })
   end

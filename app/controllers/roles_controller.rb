@@ -6,7 +6,7 @@ class RolesController < ApplicationController
   def index
     authorize Role.all
 
-    @roles = paginate Role.all
+    @roles = api_index(Role, params)
 
     render json: RoleSerializer.new(@roles)
   end

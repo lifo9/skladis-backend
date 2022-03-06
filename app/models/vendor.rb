@@ -1,6 +1,7 @@
 class Vendor < ApplicationRecord
   include Searchable
   include Orderable
+  include Filterable
 
   after_save_commit :resize_logo
 

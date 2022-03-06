@@ -1,6 +1,7 @@
 class Supplier < ApplicationRecord
   include Searchable
   include Orderable
+  include Filterable
 
   after_destroy_commit :destroy_address
 

@@ -6,12 +6,7 @@ class UsersController < ApplicationController
   def index
     authorize User.all
 
-    if params[:search]
-      @users = paginate User.search_all_fields(params[:search])
-    else
-      @users = paginate User.all
-    end
-    @users = @users.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    @users = api_index(User, params)
 
     render json: UserSerializer.new(@users, { include: [:roles], params: { admin: true } })
   end

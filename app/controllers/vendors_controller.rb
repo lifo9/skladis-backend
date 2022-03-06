@@ -6,12 +6,7 @@ class VendorsController < ApplicationController
   def index
     authorize Vendor.all
 
-    if params[:search]
-      @vendors = paginate Vendor.search_all_fields(params[:search])
-    else
-      @vendors = paginate Vendor.all
-    end
-    @vendors = @vendors.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    @vendors = api_index(Vendor, params)
 
     render json: VendorSerializer.new(@vendors)
   end

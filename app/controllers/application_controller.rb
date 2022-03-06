@@ -13,6 +13,16 @@ class ApplicationController < ActionController::API
   rescue_from JWTSessions::Errors::ClaimsVerification, with: :forbidden
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
+  def api_index(model_class, params)
+    items = model_class.all
+
+    items = items.api_filter(params)
+    items = items.search_all_fields(params[:search]) if params[:search]
+    items = items.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+
+    paginate items
+  end
+
   private
 
   def current_user

@@ -4,12 +4,7 @@ class ContactsController < ApplicationController
 
   # GET /contacts
   def index
-    if params[:search]
-      @contacts = paginate Contact.search_all_fields(params[:search])
-    else
-      @contacts = paginate Contact.all
-    end
-    @contacts = @contacts.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    @contacts = api_index(Contact, params)
 
     render json: ContactSerializer.new(@contacts)
   end

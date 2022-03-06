@@ -6,12 +6,7 @@ class WarehousesController < ApplicationController
   def index
     authorize Warehouse.all
 
-    if params[:search]
-      @warehouses = paginate Warehouse.search_all_fields(params[:search])
-    else
-      @warehouses = paginate Warehouse.all
-    end
-    @warehouses = @warehouses.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    @warehouses = api_index(Warehouse, params)
 
     render json: WarehouseSerializer.new(@warehouses, { include: [:address] })
   end
