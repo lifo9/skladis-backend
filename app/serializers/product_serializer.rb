@@ -1,5 +1,5 @@
 class ProductSerializer < ApiSerializer
-  attributes :name
+  attributes :name, :order_code, :price, :pieces_package, :pieces_ideal, :pieces_critical
 
   has_many :suppliers
 
@@ -15,5 +15,13 @@ class ProductSerializer < ApiSerializer
     end
 
     images_url
+  end
+
+  attribute :barcode_type do |product|
+    product.barcode&.barcode_type
+  end
+
+  attribute :barcode_code do |product|
+    product.barcode&.barcode_code
   end
 end

@@ -22,7 +22,9 @@ class ProductsController < ApplicationController
   def create
     authorize Product
 
+    barcode = Barcode.new(barcode_params)
     @product = Product.new(product_params)
+    @product.barcode = barcode
     serialized_product = ProductSerializer.new(@product, { include: [:suppliers] })
 
     if @product.save
@@ -36,7 +38,22 @@ class ProductsController < ApplicationController
   def update
     authorize Product
 
+    barcode = Barcode.find_by(barcode_params)
+    if !barcode.present?
+      if @product.barcode.present?
+        barcode_temp = @product.barcode
+      end
+      barcode = Barcode.new(barcode_params)
+    end
+
+    barcode.save!
+    @product.barcode = barcode
+
     if @product.update(parse_images(product_params))
+      if barcode_temp
+        barcode_temp.destroy!
+      end
+
       render json: ProductSerializer.new(@product, { include: [:suppliers] })
     else
       render json: @product.errors, status: :unprocessable_entity
@@ -60,6 +77,10 @@ class ProductsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def product_params
     params.fetch(:product, {}).permit(Product::PERMITTED_PARAMS)
+  end
+
+  def barcode_params
+    params.fetch(:product, {}).permit(Barcode::PERMITTED_PARAMS)
   end
 
   def parse_images(params)
