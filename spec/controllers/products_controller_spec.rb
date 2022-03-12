@@ -12,6 +12,10 @@ RSpec.describe ProductsController, type: :controller do
       it_behaves_like 'rejects access to unauthorized users', :get, :index, {}, [403]
     end
 
+    describe '#select_options' do
+      it_behaves_like 'rejects access to unauthorized users', :get, :select_options, { id: 1 }, [403]
+    end
+
     describe '#show' do
       it_behaves_like 'rejects access to unauthorized users', :get, :show, { id: 1 }, [403, 404]
     end
@@ -46,6 +50,16 @@ RSpec.describe ProductsController, type: :controller do
       end
     end
 
+    describe "#select_options" do
+      let!(:products) { create_list :product, 3 }
+
+      it "renders a successful response" do
+        get :select_options
+
+        expect(response).to be_successful
+      end
+    end
+
     describe "#show" do
       let!(:product) { create :product }
 
@@ -61,6 +75,11 @@ RSpec.describe ProductsController, type: :controller do
       let(:suppliers) { create_list :supplier, 3 }
       let(:valid_params) { {
         name: "Product name",
+        order_code: "ORDER_CODE_321",
+        pieces_ideal: 20,
+        pieces_critical: 10,
+        barcode_type: 'ean',
+        barcode_code: '312312',
         supplier_ids: suppliers.map(&:id)
       } }
 
@@ -74,7 +93,7 @@ RSpec.describe ProductsController, type: :controller do
           post :create, params: { product: valid_params }
 
           expect(response).to have_http_status(:created)
-          expect(response_json.size).to eq 1
+          expect(response_json.size).to eq 2
           expect(response_json["data"]).to have_key "id"
         end
       end
@@ -86,6 +105,11 @@ RSpec.describe ProductsController, type: :controller do
 
       let(:valid_new_params) { {
         name: "New product name",
+        order_code: "ORDER_CODE_666",
+        pieces_ideal: 14,
+        pieces_critical: 7,
+        barcode_type: 'ean_9',
+        barcode_code: '3112356',
         supplier_ids: [supplier.id]
       } }
 
@@ -95,7 +119,12 @@ RSpec.describe ProductsController, type: :controller do
           product.reload
 
           expect(product.name).to eq(valid_new_params[:name])
-          expect(product.supplier_ids).to eq(valid_new_params[:supplier_ids])
+          expect(product.order_code).to eq(valid_new_params[:order_code])
+          expect(product.pieces_ideal).to eq(valid_new_params[:pieces_ideal])
+          expect(product.pieces_ideal).to eq(valid_new_params[:pieces_ideal])
+          expect(product.barcode.barcode_type).to eq(valid_new_params[:barcode_type])
+          expect(product.barcode.barcode_code).to eq(valid_new_params[:barcode_code])
+          expect(product.pieces_critical).to eq(valid_new_params[:pieces_critical])
         end
         it "renders a JSON response with the product" do
           patch :update, params: { id: product.id, product: valid_new_params }

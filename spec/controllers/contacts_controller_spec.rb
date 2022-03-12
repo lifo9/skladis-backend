@@ -6,6 +6,10 @@ RSpec.describe ContactsController, type: :controller do
       it_behaves_like 'rejects access to unauthorized users', :get, :index, {}, [401]
     end
 
+    describe '#select_options' do
+      it_behaves_like 'rejects access to unauthorized users', :get, :select_options, { id: 1 }, [401]
+    end
+
     describe '#show' do
       it_behaves_like 'rejects access to unauthorized users', :get, :show, { id: 1 }, [401]
     end
@@ -39,6 +43,16 @@ RSpec.describe ContactsController, type: :controller do
 
       it "renders a successful response" do
         get :index
+
+        expect(response).to be_successful
+      end
+    end
+
+    describe "#select_options" do
+      let!(:contacts) { create_list :contact, 3 }
+
+      it "renders a successful response" do
+        get :select_options
 
         expect(response).to be_successful
       end

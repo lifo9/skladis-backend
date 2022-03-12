@@ -11,6 +11,13 @@ class ProductsController < ApplicationController
     render json: ProductSerializer.new(@products, { include: [:suppliers] })
   end
 
+  # GET /products/select-options
+  def select_options
+    authorize Product.all
+
+    render json: api_select_options(Product, [:name], :id, params)
+  end
+
   # GET /products/1
   def show
     authorize @product
@@ -22,9 +29,11 @@ class ProductsController < ApplicationController
   def create
     authorize Product
 
-    barcode = Barcode.new(barcode_params)
     @product = Product.new(product_params)
-    @product.barcode = barcode
+    if barcode_params.present?
+      barcode = Barcode.new(barcode_params)
+      @product.barcode = barcode
+    end
     serialized_product = ProductSerializer.new(@product, { include: [:suppliers] })
 
     if @product.save
@@ -38,16 +47,18 @@ class ProductsController < ApplicationController
   def update
     authorize Product
 
-    barcode = Barcode.find_by(barcode_params)
-    if !barcode.present?
-      if @product.barcode.present?
-        barcode_temp = @product.barcode
+    if barcode_params.present?
+      barcode = Barcode.find_by(barcode_params)
+      if !barcode.present?
+        if @product.barcode.present?
+          barcode_temp = @product.barcode
+        end
+        barcode = Barcode.new(barcode_params)
       end
-      barcode = Barcode.new(barcode_params)
-    end
 
-    barcode.save!
-    @product.barcode = barcode
+      barcode.save!
+      @product.barcode = barcode
+    end
 
     if @product.update(parse_images(product_params))
       if barcode_temp

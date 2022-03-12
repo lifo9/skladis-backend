@@ -1,6 +1,10 @@
 FactoryBot.define do
   factory :product do
     sequence(:name) { |n| "Product #{n}" }
+    sequence(:order_code) { |n| "ORDER_CODE_#{n}" }
+    barcode { create(:barcode) }
+    pieces_ideal { 10 }
+    pieces_critical { 5 }
 
     after(:build) do |product|
       product.images.attach(

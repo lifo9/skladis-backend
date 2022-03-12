@@ -23,10 +23,14 @@ class ApplicationController < ActionController::API
     paginate items
   end
 
-  def api_select_options(model_class, label_columns, value_column)
-    model_class.all
-               .pluck(*label_columns, value_column)
-               .map do |columns|
+  def api_select_options(model_class, label_columns, value_column, params)
+    items = model_class.all
+    items = items.api_filter(params)
+    items = items.search_all_fields(params[:search]) if params[:search]
+    items = items.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    
+    items.pluck(*label_columns, value_column)
+         .map do |columns|
       {
         id: columns.last,
         label: columns[0...-1].join(' ')

@@ -87,6 +87,25 @@ Rails.application.routes.draw do
   # Products
   scope 'products', controller: :products do
     get '', action: :index
+    get 'select-options', action: :select_options
+    get ':id', action: :show
+    post '', action: :create
+    patch ':id', action: :update
+    delete ':id', action: :destroy
+  end
+
+  # Orders
+  scope 'orders', controller: :orders do
+    get '', action: :index
+    get ':id', action: :show
+    post '', action: :create
+    patch ':id', action: :update
+    delete ':id', action: :destroy
+  end
+
+  # Order Items
+  scope 'order-items', controller: :order_items do
+    get '', action: :index
     get ':id', action: :show
     post '', action: :create
     patch ':id', action: :update
