@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_15_203700) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_12_200249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_15_203700) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "barcodes", force: :cascade do |t|
+    t.string "barcode_type"
+    t.string "barcode_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -60,6 +67,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_15_203700) do
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "order_code"
+    t.integer "pieces_ideal"
+    t.integer "pieces_critical"
+    t.bigint "barcode_id"
+    t.index ["barcode_id"], name: "index_products_on_barcode_id"
+  end
+
+  create_table "products_suppliers", id: false, force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "supplier_id"
+    t.index ["product_id"], name: "index_products_suppliers_on_product_id"
+    t.index ["supplier_id"], name: "index_products_suppliers_on_supplier_id"
   end
 
   create_table "registration_invitations", force: :cascade do |t|
@@ -140,6 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_15_203700) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "products", "barcodes", name: "products_barcode_id_fkey"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"
   add_foreign_key "suppliers", "addresses"

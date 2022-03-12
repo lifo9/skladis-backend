@@ -3,6 +3,10 @@ class WarehousePolicy < ApplicationPolicy
     can_manage_warehouse?
   end
 
+  def select_options?
+    can_manage_warehouse?
+  end
+
   def show?
     can_manage_warehouse?
   end

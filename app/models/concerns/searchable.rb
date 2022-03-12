@@ -19,7 +19,8 @@ module Searchable
       searchable_cols_strings = searchable_cols_strings + columns.select { |col| col.type == :string }
                                                                  .map { |col| { type: col.type, name: "#{name.constantize.table_name}.#{col.name}" } }
 
-      left_outer_joins(join_tables)
+      distinct
+        .left_outer_joins(join_tables)
         .where("#{searchable_cols_strings.map { |col| "COALESCE(lower(#{col[:name]}), #{col[:name]}, '')" } # handle null values
                                          .join(' || ')} LIKE ?", "%#{searchTerm.downcase}%")
     }

@@ -3,6 +3,10 @@ class SupplierPolicy < ApplicationPolicy
     can_manage_supplier?
   end
 
+  def select_options?
+    can_manage_supplier?
+  end
+
   def show?
     can_manage_supplier?
   end

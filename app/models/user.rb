@@ -2,6 +2,7 @@ class User < ApplicationRecord
   rolify
   include Searchable
   include Orderable
+  include Filterable
 
   after_create :assign_default_role
   after_save_commit :resize_avatar

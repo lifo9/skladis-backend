@@ -6,14 +6,16 @@ class SuppliersController < ApplicationController
   def index
     authorize Supplier.all
 
-    if params[:search]
-      @suppliers = Supplier.search_all_fields(params[:search])
-    else
-      @suppliers = paginate Supplier.all
-    end
-    @suppliers = @suppliers.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    @suppliers = api_index(Supplier, params)
 
     render json: SupplierSerializer.new(@suppliers, { include: [:address, :contact] })
+  end
+
+  # GET /suppliers/select-options
+  def select_options
+    authorize Supplier.all
+
+    render json: api_select_options(Supplier, [:name], :id)
   end
 
   # GET /suppliers/1

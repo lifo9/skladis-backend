@@ -6,12 +6,7 @@ class RoomsController < ApplicationController
   def index
     authorize Room.all
 
-    if params[:search]
-      @rooms = Room.search_all_fields(params[:search])
-    else
-      @rooms = paginate Room.all
-    end
-    @rooms = @rooms.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    @rooms = api_index(Room, params)
 
     render json: RoomSerializer.new(@rooms, { include: [:warehouse] })
   end

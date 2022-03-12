@@ -4,14 +4,14 @@ class ContactsController < ApplicationController
 
   # GET /contacts
   def index
-    if params[:search]
-      @contacts = Contact.search_all_fields(params[:search])
-    else
-      @contacts = paginate Contact.all
-    end
-    @contacts = @contacts.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    @contacts = api_index(Contact, params)
 
     render json: ContactSerializer.new(@contacts)
+  end
+
+  # GET /contacts/select-options
+  def select_options
+    render json: api_select_options(Contact, [:first_name, :last_name], :id)
   end
 
   # GET /contacts/1
