@@ -11,6 +11,13 @@ class WarehousesController < ApplicationController
     render json: WarehouseSerializer.new(@warehouses, { include: [:address] })
   end
 
+  # GET /warehouses/select-options
+  def select_options
+    authorize Warehouse.all
+
+    render json: api_select_options(Warehouse, [:name], :id)
+  end
+
   # GET /warehouses/1
   def show
     authorize @warehouse

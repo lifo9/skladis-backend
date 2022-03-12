@@ -9,6 +9,11 @@ class ContactsController < ApplicationController
     render json: ContactSerializer.new(@contacts)
   end
 
+  # GET /contacts/select-options
+  def select_options
+    render json: api_select_options(Contact, [:first_name, :last_name], :id)
+  end
+
   # GET /contacts/1
   def show
     render json: ContactSerializer.new(@contact)

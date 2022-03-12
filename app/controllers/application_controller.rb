@@ -23,6 +23,17 @@ class ApplicationController < ActionController::API
     paginate items
   end
 
+  def api_select_options(model_class, label_columns, value_column)
+    model_class.all
+               .pluck(*label_columns, value_column)
+               .map do |columns|
+      {
+        id: columns.last,
+        label: columns[0...-1].join(' ')
+      }
+    end
+  end
+
   private
 
   def current_user

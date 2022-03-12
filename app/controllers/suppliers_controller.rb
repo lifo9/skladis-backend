@@ -11,6 +11,13 @@ class SuppliersController < ApplicationController
     render json: SupplierSerializer.new(@suppliers, { include: [:address, :contact] })
   end
 
+  # GET /suppliers/select-options
+  def select_options
+    authorize Supplier.all
+
+    render json: api_select_options(Supplier, [:name], :id)
+  end
+
   # GET /suppliers/1
   def show
     authorize @supplier
