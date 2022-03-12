@@ -1,5 +1,5 @@
 class ProductSerializer < ApiSerializer
-  attributes :name, :order_code, :price, :pieces_package, :pieces_ideal, :pieces_critical
+  attributes :name, :order_code, :pieces_ideal, :pieces_critical
 
   has_many :suppliers
 

@@ -13,7 +13,7 @@ class Product < ApplicationRecord
 
   belongs_to :barcode, class_name: Barcode.to_s, dependent: :destroy
 
-  PERMITTED_PARAMS = [:name, :order_code, :price, :pieces_package, :pieces_ideal, :pieces_critical, supplier_ids: [], images: []].freeze
+  PERMITTED_PARAMS = [:name, :order_code, :pieces_ideal, :pieces_critical, supplier_ids: [], images: []].freeze
 
   private
 

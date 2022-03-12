@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_08_115721) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_12_200249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,8 +74,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_08_115721) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "order_code"
-    t.decimal "price"
-    t.integer "pieces_package"
     t.integer "pieces_ideal"
     t.integer "pieces_critical"
     t.bigint "barcode_id"
@@ -167,7 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_08_115721) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "products", "barcodes", on_delete: :cascade
+  add_foreign_key "products", "barcodes", name: "products_barcode_id_fkey"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"
   add_foreign_key "suppliers", "addresses"
