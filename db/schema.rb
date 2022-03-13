@@ -69,25 +69,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_12_212531) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "order_items", force: :cascade do |t|
-    t.bigint "order_id", null: false
+  create_table "invoice_items", force: :cascade do |t|
+    t.bigint "invoice_id", null: false
     t.bigint "product_id", null: false
     t.bigint "supplier_id", null: false
     t.decimal "unit_price"
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_order_items_on_order_id"
-    t.index ["product_id"], name: "index_order_items_on_product_id"
-    t.index ["supplier_id"], name: "index_order_items_on_supplier_id"
+    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+    t.index ["product_id"], name: "index_invoice_items_on_product_id"
+    t.index ["supplier_id"], name: "index_invoice_items_on_supplier_id"
   end
 
-  create_table "orders", force: :cascade do |t|
-    t.string "order_code"
+  create_table "invoices", force: :cascade do |t|
+    t.string "invoice_code"
+    t.datetime "invoice_date"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_orders_on_user_id"
+    t.index ["user_id"], name: "index_invoices_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -186,10 +187,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_12_212531) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "order_items", "orders"
-  add_foreign_key "order_items", "products"
-  add_foreign_key "order_items", "suppliers"
-  add_foreign_key "orders", "users"
+  add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoice_items", "products"
+  add_foreign_key "invoice_items", "suppliers"
+  add_foreign_key "invoices", "users"
   add_foreign_key "products", "barcodes", name: "products_barcode_id_fkey"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"

@@ -95,7 +95,7 @@ Rails.application.routes.draw do
   end
 
   # Orders
-  scope 'orders', controller: :orders do
+  scope 'invoices', controller: :invoices do
     get '', action: :index
     get ':id', action: :show
     post '', action: :create
@@ -103,8 +103,8 @@ Rails.application.routes.draw do
     delete ':id', action: :destroy
   end
 
-  # Order Items
-  scope 'order-items', controller: :order_items do
+  # Invoice Items
+  scope 'invoice-items', controller: :invoice_items do
     get '', action: :index
     get ':id', action: :show
     post '', action: :create
