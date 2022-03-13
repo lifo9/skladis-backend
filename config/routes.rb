@@ -94,7 +94,7 @@ Rails.application.routes.draw do
     delete ':id', action: :destroy
   end
 
-  # Orders
+  # Invoices
   scope 'invoices', controller: :invoices do
     get '', action: :index
     get ':id', action: :show

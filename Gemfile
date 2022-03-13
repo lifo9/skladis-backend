@@ -45,7 +45,7 @@ gem 'rack-cors'
 # authorization system
 gem 'pundit'
 
-# Very simple Roles library without any authorization enforcement supporting invoice_items on resource object.
+# Very simple Roles library without any authorization enforcement supporting scope on resource object.
 gem 'rolify'
 
 #-------------------------------------------------------------------------------

@@ -48,6 +48,6 @@ class ApplicationPolicy
 
     private
 
-    attr_reader :user, :invoice_items
+    attr_reader :user, :scope
   end
 end
