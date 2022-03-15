@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   before_action :authorize_access_request!
-  before_action :set_invoice, only: %i[ show update destroy ]
+  before_action :set_invoice, only: %i[ show update destroy destroy_invoice_file ]
 
   # GET /invoices
   def index
@@ -23,6 +23,7 @@ class InvoicesController < ApplicationController
     authorize Invoice
 
     @invoice = Invoice.new(invoice_params)
+    @invoice.user = current_user
     serialized_invoice = InvoiceSerializer.new(@invoice, { include: [:invoice_items] })
 
     if @invoice.save
@@ -36,6 +37,10 @@ class InvoicesController < ApplicationController
   def update
     authorize Invoice
 
+    if @invoice.invoice_items
+      @invoice.invoice_items.destroy_all
+    end
+    
     if @invoice.update(invoice_params)
       render json: InvoiceSerializer.new(@invoice)
     else
@@ -48,6 +53,11 @@ class InvoicesController < ApplicationController
     authorize @invoice
 
     @invoice.destroy
+  end
+
+  # DELETE /invoices/1/avatar
+  def destroy_invoice_file
+    @invoice.invoice_file.purge
   end
 
   private

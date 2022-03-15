@@ -101,6 +101,7 @@ Rails.application.routes.draw do
     post '', action: :create
     patch ':id', action: :update
     delete ':id', action: :destroy
+    delete ':id/invoice-file', action: :destroy_invoice_file
   end
 
   # Invoice Items
