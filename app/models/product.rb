@@ -11,7 +11,7 @@ class Product < ApplicationRecord
     attachable.variant(:normal, resize_to_limit: [1024, 1024])
   end
 
-  belongs_to :barcode, class_name: Barcode.to_s, dependent: :destroy
+  belongs_to :barcode, class_name: Barcode.to_s, dependent: :destroy, optional: true
 
   PERMITTED_PARAMS = [:name, :order_code, :pieces_ideal, :pieces_critical, supplier_ids: [], images: []].freeze
 

@@ -15,7 +15,7 @@ class SuppliersController < ApplicationController
   def select_options
     authorize Supplier.all
 
-    render json: api_select_options(Supplier, [:name], :id)
+    render json: api_select_options(Supplier, [:name], :id, params)
   end
 
   # GET /suppliers/1

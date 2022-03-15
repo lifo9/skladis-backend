@@ -3,6 +3,10 @@ class ProductPolicy < ApplicationPolicy
     can_manage_product?
   end
 
+  def select_options?
+    can_manage_product?
+  end
+
   def show?
     can_manage_product?
   end

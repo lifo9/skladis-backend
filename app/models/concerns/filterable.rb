@@ -4,7 +4,7 @@ module Filterable
   included do
     scope :api_filter, -> (params) {
       filtered_params = params.keys.map do |key|
-        param_split = key.to_s.split('_')
+        param_split = key.to_s.split('_', 2)
         if param_split.length == 2
           param_split[0]
         end

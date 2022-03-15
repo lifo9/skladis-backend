@@ -11,7 +11,7 @@ class ContactsController < ApplicationController
 
   # GET /contacts/select-options
   def select_options
-    render json: api_select_options(Contact, [:first_name, :last_name], :id)
+    render json: api_select_options(Contact, [:first_name, :last_name], :id, params)
   end
 
   # GET /contacts/1

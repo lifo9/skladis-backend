@@ -87,6 +87,26 @@ Rails.application.routes.draw do
   # Products
   scope 'products', controller: :products do
     get '', action: :index
+    get 'select-options', action: :select_options
+    get ':id', action: :show
+    post '', action: :create
+    patch ':id', action: :update
+    delete ':id', action: :destroy
+  end
+
+  # Invoices
+  scope 'invoices', controller: :invoices do
+    get '', action: :index
+    get ':id', action: :show
+    post '', action: :create
+    patch ':id', action: :update
+    delete ':id', action: :destroy
+    delete ':id/invoice-file', action: :destroy_invoice_file
+  end
+
+  # Invoice Items
+  scope 'invoice-items', controller: :invoice_items do
+    get '', action: :index
     get ':id', action: :show
     post '', action: :create
     patch ':id', action: :update

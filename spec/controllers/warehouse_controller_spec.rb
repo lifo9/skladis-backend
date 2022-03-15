@@ -12,6 +12,10 @@ RSpec.describe WarehousesController, type: :controller do
       it_behaves_like 'rejects access to unauthorized users', :get, :index, {}, [403]
     end
 
+    describe '#select_options' do
+      it_behaves_like 'rejects access to unauthorized users', :get, :select_options, { id: 1 }, [403]
+    end
+
     describe '#show' do
       it_behaves_like 'rejects access to unauthorized users', :get, :show, { id: 1 }, [403, 404]
     end
@@ -41,6 +45,16 @@ RSpec.describe WarehousesController, type: :controller do
 
       it "renders a successful response" do
         get :index
+
+        expect(response).to be_successful
+      end
+    end
+
+    describe "#select_options" do
+      let!(:warehouses) { create_list :warehouse, 3 }
+
+      it "renders a successful response" do
+        get :select_options
 
         expect(response).to be_successful
       end

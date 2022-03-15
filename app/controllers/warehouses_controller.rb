@@ -15,7 +15,7 @@ class WarehousesController < ApplicationController
   def select_options
     authorize Warehouse.all
 
-    render json: api_select_options(Warehouse, [:name], :id)
+    render json: api_select_options(Warehouse, [:name], :id, params)
   end
 
   # GET /warehouses/1
