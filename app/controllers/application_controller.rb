@@ -31,9 +31,16 @@ class ApplicationController < ActionController::API
 
   def api_select_options(model_class, label_columns, value_column, params)
     items = model_class.all
-    items = items.api_filter(params)
-    items = items.search_all_fields(params[:search]) if params[:search]
-    items = items.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    
+    if items.respond_to?(:api_filter)
+      items = items.api_filter(params)
+    end
+    if items.respond_to?(:search_all_fields)
+      items = items.search_all_fields(params[:search]) if params[:search]
+    end
+    if items.respond_to?(:api_order_by)
+      items = items.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+    end
 
     items.pluck(*label_columns, value_column)
          .map do |columns|
