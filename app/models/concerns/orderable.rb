@@ -2,15 +2,21 @@ module Orderable
   extend ActiveSupport::Concern
 
   included do
-    scope :api_order_by, -> (order_by, order) {
+    scope :api_order_by, -> (order_by, order, associations) {
       all_attributes = name
                          .constantize
                          .reflect_on_all_associations
                          .select { |assoc| !assoc.name.to_s.include?('attachment') && !assoc.name.to_s.include?('blob') }
                          .map { |assoc| [[assoc.name, assoc.plural_name], assoc.options[:class_name]&.constantize&.column_names || []] }.to_h
-      allowed_assoc_order_by_strings = all_attributes
-                                         .map { |name_plural_tuple, attributes| attributes.map { |attr| "#{name_plural_tuple[1]}.#{attr}" } }
-                                         .flatten
+
+      if associations
+        allowed_assoc_order_by_strings = all_attributes
+                                           .map { |name_plural_tuple, attributes| attributes.map { |attr| "#{name_plural_tuple[1]}.#{attr}" } }
+                                           .flatten
+      else
+        allowed_assoc_order_by_strings = []
+      end
+
       allowed_all_order_by_strings = allowed_assoc_order_by_strings + column_names
 
       if (order_by.present? && allowed_all_order_by_strings.exclude?(order_by)) ||

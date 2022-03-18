@@ -48,6 +48,9 @@ gem 'pundit'
 # Very simple Roles library without any authorization enforcement supporting scope on resource object.
 gem 'rolify'
 
+# Track changes to your models, for auditing or versioning.
+gem "paper_trail"
+
 #-------------------------------------------------------------------------------
 # Assets
 #-------------------------------------------------------------------------------

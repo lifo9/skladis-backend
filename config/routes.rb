@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   # Users
   scope 'users', controller: :users do
     get '', action: :index
+    get 'select-options', action: :select_options
     get ':id', action: :show
     post '', action: :create
     patch ':id', action: :update
@@ -111,6 +112,12 @@ Rails.application.routes.draw do
     post '', action: :create
     patch ':id', action: :update
     delete ':id', action: :destroy
+  end
+
+  # Audits
+  scope 'audits', controller: :audits do
+    get '', action: :index
+    get 'select-options', action: :select_options
   end
 
   # Image auth
