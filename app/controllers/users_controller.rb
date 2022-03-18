@@ -13,6 +13,8 @@ class UsersController < ApplicationController
 
   # GET /users/select-options
   def select_options
+    authorize User.all
+
     render json: api_select_options(User, [:first_name, :last_name], :id, params)
   end
 
