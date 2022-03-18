@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::API
   include JWTSessions::RailsAuthorization
-  include Pundit
+  include Pundit::Authorization
 
   before_action :set_locale
+  before_action :set_paper_trail_whodunnit
 
   delegate :t, to: I18n
 
@@ -13,33 +14,33 @@ class ApplicationController < ActionController::API
   rescue_from JWTSessions::Errors::ClaimsVerification, with: :forbidden
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
-  def api_index(model_class, params)
+  def api_index(model_class, params, associations = true)
     items = model_class.all
 
     if items.respond_to?(:api_filter)
-      items = items.api_filter(params)
+      items = items.api_filter(params, associations)
     end
     if items.respond_to?(:search_all_fields)
-      items = items.search_all_fields(params[:search]) if params[:search]
+      items = items.search_all_fields(params[:search], associations) if params[:search]
     end
     if items.respond_to?(:api_order_by)
-      items = items.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+      items = items.api_order_by(params[:order_by], params[:order], associations) if params[:order_by] || params[:order]
     end
 
     paginate items
   end
 
-  def api_select_options(model_class, label_columns, value_column, params)
+  def api_select_options(model_class, label_columns, value_column, params, associations = true)
     items = model_class.all
-    
+
     if items.respond_to?(:api_filter)
-      items = items.api_filter(params)
+      items = items.api_filter(params, associations)
     end
     if items.respond_to?(:search_all_fields)
-      items = items.search_all_fields(params[:search]) if params[:search]
+      items = items.search_all_fields(params[:search], associations) if params[:search]
     end
     if items.respond_to?(:api_order_by)
-      items = items.api_order_by(params[:order_by], params[:order]) if params[:order_by] || params[:order]
+      items = items.api_order_by(params[:order_by], params[:order], associations) if params[:order_by] || params[:order]
     end
 
     items.pluck(*label_columns, value_column)
@@ -54,7 +55,14 @@ class ApplicationController < ActionController::API
   private
 
   def current_user
-    @current_user ||= User.find(payload['user_id'])
+    token = request_cookies[JWTSessions.cookie_by(:access)]
+    if JWTSessions::Session.new.session_exists?(token)
+      decode_options = { algorithm: JWTSessions.algorithm }
+      payload = JWT.decode(token, JWTSessions.public_key, false, decode_options)
+      @current_user = User.find(payload[0]['user_id'])
+    else
+      @current_user = nil
+    end
   end
 
   def set_locale

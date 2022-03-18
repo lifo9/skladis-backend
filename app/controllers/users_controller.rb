@@ -11,6 +11,11 @@ class UsersController < ApplicationController
     render json: UserSerializer.new(@users, { include: [:roles], params: { admin: true } })
   end
 
+  # GET /users/select-options
+  def select_options
+    render json: api_select_options(User, [:first_name, :last_name], :id, params)
+  end
+
   # GET /users/1
   def show
     authorize @user

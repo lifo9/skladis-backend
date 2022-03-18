@@ -2,7 +2,7 @@ module Filterable
   extend ActiveSupport::Concern
 
   included do
-    scope :api_filter, -> (params) {
+    scope :api_filter, -> (params, associations) {
       filtered_params = params.keys.map do |key|
         param_split = key.to_s.split('_', 2)
         if param_split.length == 2
@@ -10,15 +10,19 @@ module Filterable
         end
       end.compact
 
-      all_assoc_attributes = name
-                               .constantize
-                               .reflect_on_all_associations
-                               .select { |assoc| !assoc.name.to_s.include?('attachment') && !assoc.name.to_s.include?('blob') }
-                               .map { |assoc|
-                                 [[assoc.name, assoc.plural_name],
-                                  assoc.options[:class_name]&.constantize&.columns
-                                       .select { |col| col.name == 'id' || col.type == :string } || []
-                                 ] }.to_h
+      if associations
+        all_assoc_attributes = name
+                                 .constantize
+                                 .reflect_on_all_associations
+                                 .select { |assoc| !assoc.name.to_s.include?('attachment') && !assoc.name.to_s.include?('blob') }
+                                 .map { |assoc|
+                                   [[assoc.name, assoc.plural_name],
+                                    assoc.options[:class_name]&.constantize&.columns&.select { |col| col.name == 'id' || col.type == :string } || []
+                                   ] }.to_h
+      else
+        all_assoc_attributes = {}
+      end
+
       join_tables = *all_assoc_attributes.select { |cols| cols.present? }.keys
                                          .map { |name_plural_tuple| name_plural_tuple[0] }
                                          .select { |table_name| filtered_params.include?(table_name.to_s) }
