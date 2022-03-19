@@ -31,7 +31,7 @@ class ProductsController < ApplicationController
 
     prices = api_index(InvoiceItem, params, true, InvoiceItem.where(product: @product))
 
-    render json: InvoiceItemSerializer.new(prices, { include: [:product], params: { invoice_date: true } })
+    render json: InvoiceItemSerializer.new(prices, { include: [:product, :supplier, :invoice], params: { invoice_date: true } })
   end
 
   # POST /products
