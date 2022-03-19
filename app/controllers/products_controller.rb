@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   before_action :authorize_access_request!
-  before_action :set_product, only: %i[ show update destroy ]
+  before_action :set_product, only: %i[ show update destroy price_history ]
 
   # GET /products
   def index
@@ -23,6 +23,15 @@ class ProductsController < ApplicationController
     authorize @product
 
     render json: ProductSerializer.new(@product, { include: [:suppliers], params: { image_type: :normal } })
+  end
+
+  # GET /products/1/price-history
+  def price_history
+    authorize @product
+
+    prices = api_index(InvoiceItem, params, true, InvoiceItem.where(product: @product))
+
+    render json: InvoiceItemSerializer.new(prices, { include: [:product], params: { invoice_date: true } })
   end
 
   # POST /products
