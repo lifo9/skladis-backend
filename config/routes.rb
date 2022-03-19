@@ -90,6 +90,7 @@ Rails.application.routes.draw do
     get '', action: :index
     get 'select-options', action: :select_options
     get ':id', action: :show
+    get ':id/price-history', action: :price_history
     post '', action: :create
     patch ':id', action: :update
     delete ':id', action: :destroy

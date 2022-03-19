@@ -14,8 +14,12 @@ class ApplicationController < ActionController::API
   rescue_from JWTSessions::Errors::ClaimsVerification, with: :forbidden
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
-  def api_index(model_class, params, associations = true)
-    items = model_class.all
+  def api_index(model_class, params, associations = true, custom_query = false)
+    if custom_query
+      items = custom_query
+    else
+      items = model_class.all
+    end
 
     if items.respond_to?(:api_filter)
       items = items.api_filter(params, associations)

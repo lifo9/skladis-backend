@@ -11,6 +11,10 @@ class ProductPolicy < ApplicationPolicy
     can_manage_product?
   end
 
+  def price_history?
+    can_manage_product?
+  end
+
   def create?
     can_manage_product?
   end
