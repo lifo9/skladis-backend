@@ -55,7 +55,7 @@ class SuppliersController < ApplicationController
 
     address = Address.find_by(address_params_without_coordinates)
     if address.present?
-      address.coordinates = address_params[:coordinates]
+      # address.coordinates = address_params[:coordinates]
     else
       address = Address.new(address_params)
     end
