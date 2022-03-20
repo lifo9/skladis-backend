@@ -40,3 +40,5 @@ en:
       subject: 'Activate your account'
       text: 'Thank you for registration. To activate your account, please click on the link below:'
       activate: 'Activate'
+
+  not_enough_pieces: 'Not enough pieces in stock'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_18_170659) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_20_194227) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -137,6 +137,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_18_170659) do
     t.index ["warehouse_id"], name: "index_rooms_on_warehouse_id"
   end
 
+  create_table "stock_transactions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "stock_id"
+    t.bigint "room_from_id"
+    t.bigint "room_to_id"
+    t.string "action", null: false
+    t.integer "pieces", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_from_id"], name: "index_stock_transactions_on_room_from_id"
+    t.index ["room_to_id"], name: "index_stock_transactions_on_room_to_id"
+    t.index ["stock_id"], name: "index_stock_transactions_on_stock_id"
+    t.index ["user_id"], name: "index_stock_transactions_on_user_id"
+  end
+
+  create_table "stocks", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "room_id", null: false
+    t.datetime "expiration", null: false
+    t.integer "pieces", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "room_id", "expiration"], name: "index_stocks_on_product_id_and_room_id_and_expiration", unique: true
+    t.index ["product_id"], name: "index_stocks_on_product_id"
+    t.index ["room_id"], name: "index_stocks_on_room_id"
+  end
+
   create_table "suppliers", force: :cascade do |t|
     t.string "name"
     t.string "ico"
@@ -206,6 +233,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_18_170659) do
   add_foreign_key "products", "barcodes", name: "products_barcode_id_fkey"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"
+  add_foreign_key "stock_transactions", "rooms", column: "room_from_id"
+  add_foreign_key "stock_transactions", "rooms", column: "room_to_id"
+  add_foreign_key "stock_transactions", "stocks"
+  add_foreign_key "stock_transactions", "users"
+  add_foreign_key "stocks", "products"
+  add_foreign_key "stocks", "rooms"
   add_foreign_key "suppliers", "addresses"
   add_foreign_key "suppliers", "contacts"
   add_foreign_key "warehouses", "addresses"

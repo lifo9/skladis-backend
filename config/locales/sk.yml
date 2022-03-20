@@ -219,3 +219,4 @@ sk:
       long: "%A %e. %B %Y %H:%M"
       short: "%e. %-m. %H:%M"
     pm: popoludní
+  not_enough_pieces: 'Nedostatok kusov na sklade'
