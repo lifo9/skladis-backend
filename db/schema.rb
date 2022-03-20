@@ -140,14 +140,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_194227) do
   create_table "stock_transactions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "stock_id"
-    t.bigint "room_from_id"
-    t.bigint "room_to_id"
     t.string "action", null: false
     t.integer "pieces", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["room_from_id"], name: "index_stock_transactions_on_room_from_id"
-    t.index ["room_to_id"], name: "index_stock_transactions_on_room_to_id"
     t.index ["stock_id"], name: "index_stock_transactions_on_stock_id"
     t.index ["user_id"], name: "index_stock_transactions_on_user_id"
   end
@@ -233,8 +229,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_194227) do
   add_foreign_key "products", "barcodes", name: "products_barcode_id_fkey"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"
-  add_foreign_key "stock_transactions", "rooms", column: "room_from_id"
-  add_foreign_key "stock_transactions", "rooms", column: "room_to_id"
   add_foreign_key "stock_transactions", "stocks"
   add_foreign_key "stock_transactions", "users"
   add_foreign_key "stocks", "products"
