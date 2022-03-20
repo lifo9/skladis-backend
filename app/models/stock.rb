@@ -11,15 +11,12 @@ class Stock < ApplicationRecord
   validates :expiration, presence: true
   validates :pieces, comparison: { greater_than_or_equal_to: 0, only_integer: true }, presence: true
 
-  def all_pieces
-    Stock.where(product: self.product).sum(:pieces)
-  end
+  def self.pieces_total(product_id: nil, room_id: nil, expiration: nil)
+    query = {}
+    query[:product_id] = product_id if product_id.present?
+    query[:room_id] = room_id if room_id.present?
+    query[:expiration] = expiration if expiration.present?
 
-  def pieces_room
-    Stock.where(product: self.product, room: self.room).sum(:pieces)
-  end
-
-  def pieces_expiration
-    Stock.where(product: self.product, expiration: self.expiration).sum(:pieces)
+    Stock.where(query).sum(:pieces)
   end
 end
