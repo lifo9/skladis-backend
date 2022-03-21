@@ -151,7 +151,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_194227) do
   create_table "stocks", force: :cascade do |t|
     t.bigint "product_id", null: false
     t.bigint "room_id", null: false
-    t.datetime "expiration", null: false
+    t.datetime "expiration"
     t.integer "pieces", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

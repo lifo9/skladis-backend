@@ -3,7 +3,7 @@ class CreateStocks < ActiveRecord::Migration[7.0]
     create_table :stocks do |t|
       t.belongs_to :product, null: false, foreign_key: true
       t.belongs_to :room, null: false, foreign_key: true
-      t.datetime :expiration, null: false
+      t.datetime :expiration
       t.integer :pieces, null: false
       t.timestamps
 
