@@ -130,6 +130,12 @@ Rails.application.routes.draw do
     post 'transfer', action: :stock_transfer
   end
 
+  # Stock Transactions
+  scope 'stock-transactions', controller: :stock_transactions do
+    get '', action: :index
+    get ':id', action: :show
+  end
+
   # Image auth
   scope 'verify-image', controller: :verify_image do
     get ':sgid', action: :verify_image

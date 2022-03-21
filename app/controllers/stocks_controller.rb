@@ -18,7 +18,7 @@ class StocksController < ApplicationController
   def show
     authorize @stock
 
-    render json: StockSerializer.new(@product, { include: [:product, :room] })
+    render json: StockSerializer.new(@stock, { include: [:product, :room] })
   end
 
   # POST /stocks/in
