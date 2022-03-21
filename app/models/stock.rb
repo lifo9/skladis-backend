@@ -8,7 +8,6 @@ class Stock < ApplicationRecord
 
   validates :product, uniqueness: { scope: [:product, :room, :expiration] }, presence: true
   validates :room, uniqueness: { scope: [:product, :room, :expiration] }, presence: true
-  validates :expiration, optional: true
   validates :pieces, comparison: { greater_than_or_equal_to: 0, only_integer: true }, presence: true
 
   def self.pieces_total(product_id: nil, room_id: nil, expiration: nil)

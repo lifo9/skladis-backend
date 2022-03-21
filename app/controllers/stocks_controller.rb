@@ -14,6 +14,16 @@ class StocksController < ApplicationController
     render json: StockSerializer.new(@stocks, { include: [:product, :room] })
   end
 
+  # GET /stocks/expiration-range
+  def expiration_range
+    authorize Stock.all
+
+    min_expiration = Stock.minimum(:expiration)
+    max_expiration = Stock.maximum(:expiration)
+
+    render json: { min: min_expiration, max: max_expiration }
+  end
+
   # GET /stocks/1
   def show
     authorize @stock

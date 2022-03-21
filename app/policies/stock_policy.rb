@@ -3,6 +3,10 @@ class StockPolicy < ApplicationPolicy
     can_manage_stock?
   end
 
+  def expiration_range?
+    can_manage_stock?
+  end
+
   def show?
     can_manage_stock?
   end

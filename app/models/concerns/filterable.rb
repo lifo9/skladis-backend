@@ -30,12 +30,21 @@ module Filterable
       filterable_cols_strings = all_assoc_attributes
                                   .map { |name_plural_tuple, attributes| attributes.map { |col| { param: "#{name_plural_tuple[0]}_#{col.name}", name: "#{name_plural_tuple[1]}.#{col.name}" } } }
                                   .flatten
-      filterable_cols_strings = filterable_cols_strings + columns.select { |col| col.name == 'id' || col.type == :string }
+      filterable_cols_strings = filterable_cols_strings + columns.select { |col| col.name == 'id' || col.type == :string || col.type == :datetime }
                                                                  .map { |col| { param: "#{name.downcase}_#{col.name}", name: "#{name.constantize.table_name}.#{col.name}" } }
 
-      filters = filterable_cols_strings.select { |col| params.keys.include?(col[:param]) }
-                                       .map { |col| [col[:name], params[col[:param]]] }
-                                       .to_h
+      filters = filterable_cols_strings.select { |col| params.keys.include?(col[:param]) || params.keys.include?("#{col[:param]}-from") || params.keys.include?("#{col[:param]}-to") }
+                                       .map do |col|
+        if params["#{col[:param]}-from"] && params["#{col[:param]}-to"]
+          [col[:name], Date.parse(params["#{col[:param]}-from"][0])..Date.parse(params["#{col[:param]}-to"][0])]
+        elsif params["#{col[:param]}-from"]
+          [col[:name], Date.parse(params["#{col[:param]}-from"][0])..]
+        elsif params["#{col[:param]}-to"]
+          [col[:name], ..Date.parse(params["#{col[:param]}-to"][0])]
+        else
+          [col[:name], params[col[:param]]]
+        end
+      end.to_h
 
       if filters.present?
         distinct

@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   # Rooms
   scope 'rooms', controller: :rooms do
     get '', action: :index
+    get 'select-options', action: :select_options
     get ':id', action: :show
     post '', action: :create
     patch ':id', action: :update
@@ -124,6 +125,7 @@ Rails.application.routes.draw do
   # Stocks
   scope 'stocks', controller: :stocks do
     get '', action: :index
+    get 'expiration-range', action: :expiration_range
     get ':id', action: :show
     post 'in', action: :stock_in
     post 'out', action: :stock_out
