@@ -121,6 +121,15 @@ Rails.application.routes.draw do
     get 'select-options', action: :select_options
   end
 
+  # Stocks
+  scope 'stocks', controller: :stocks do
+    get '', action: :index
+    get ':id', action: :show
+    post 'in', action: :stock_in
+    post 'out', action: :stock_out
+    post 'transfer', action: :stock_transfer
+  end
+
   # Image auth
   scope 'verify-image', controller: :verify_image do
     get ':sgid', action: :verify_image

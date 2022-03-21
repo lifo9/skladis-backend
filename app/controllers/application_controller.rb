@@ -14,10 +14,6 @@ class ApplicationController < ActionController::API
   rescue_from JWTSessions::Errors::ClaimsVerification, with: :forbidden
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
-  PaperTrail.request.disable_model(Stock)
-  PaperTrail.request.disable_model(StockTransaction)
-  PaperTrail.request.disable_model(ActiveStorage)
-
   def api_index(model_class, params, associations = true, custom_query = false)
     if custom_query
       items = custom_query

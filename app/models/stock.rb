@@ -19,4 +19,7 @@ class Stock < ApplicationRecord
 
     Stock.where(query).sum(:pieces)
   end
+
+  PERMITTED_PARAMS_IN_OUT = [:product_id, :expiration, :room_id, :quantity].freeze
+  PERMITTED_PARAMS_TRANSFER = [:product_id, :expiration, :room_from_id, :room_to_id, :quantity].freeze
 end

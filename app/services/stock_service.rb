@@ -3,6 +3,9 @@ class StockService
     @user_id = user_id
     @product_id = product_id
     @expiration = expiration
+
+    PaperTrail.request.disable_model(Stock)
+    PaperTrail.request.disable_model(StockTransaction)
   end
 
   def stock_in(room_id, quantity)
@@ -17,6 +20,8 @@ class StockService
 
       StockTransaction.create!(user_id: @user_id, stock: stock, action: :stock_in, pieces: quantity)
     end
+
+    stock
   end
 
   def stock_out(room_id, quantity)
@@ -27,6 +32,8 @@ class StockService
 
       StockTransaction.create!(user_id: @user_id, stock: stock, action: :stock_out, pieces: quantity)
     end
+
+    stock
   end
 
   def transfer(room_from_id, room_to_id, quantity)
@@ -52,5 +59,10 @@ class StockService
                                action: :stock_in,
                                pieces: quantity)
     end
+
+    {
+      stock_from: stock_from,
+      stock_to: stock_to
+    }
   end
 end
