@@ -100,6 +100,7 @@ Rails.application.routes.draw do
   # Invoices
   scope 'invoices', controller: :invoices do
     get '', action: :index
+    get 'invoice-date-range', action: :invoice_date_range
     get ':id', action: :show
     post '', action: :create
     patch ':id', action: :update
