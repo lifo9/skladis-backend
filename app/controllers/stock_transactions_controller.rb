@@ -6,7 +6,17 @@ class StockTransactionsController < ApplicationController
   def index
     authorize StockTransaction.all
 
-    @stock_transactions = api_index(StockTransaction, params)
+    @stock_transactions = api_index(StockTransaction, params, false, false, false)
+
+    # TODO: UGLY NESTED ASSOC FILTER - make generic :)
+    @stock_transactions = @stock_transactions.joins(:stock).where(stock: { product_id: params[:product_id] }) if params[:product_id]
+    if params[:warehouse_id]
+      room_ids = Room.where(warehouse_id: params[:warehouse_id]).pluck(:id)
+      @stock_transactions = @stock_transactions.joins(:stock).where(stock: { room_id: room_ids })
+    end
+    @stock_transactions = @stock_transactions.joins(:stock).where(stock: { room_id: params[:room_id] }) if params[:room_id]
+
+    @stock_transactions = paginate @stock_transactions
 
     render json: StockTransactionSerializer.new(@stock_transactions, { include: [:user, :stock, 'stock.product', 'stock.room'] })
   end

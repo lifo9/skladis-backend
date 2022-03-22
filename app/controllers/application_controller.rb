@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
   rescue_from JWTSessions::Errors::ClaimsVerification, with: :forbidden
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
-  def api_index(model_class, params, associations = true, custom_query = false)
+  def api_index(model_class, params, associations = true, custom_query = false, paginate = true)
     if custom_query
       items = custom_query
     else
@@ -31,7 +31,11 @@ class ApplicationController < ActionController::API
       items = items.api_order_by(params[:order_by], params[:order], associations) if params[:order_by] || params[:order]
     end
 
-    paginate items
+    if paginate
+      paginate items
+    else
+      items
+    end
   end
 
   def api_select_options(model_class, label_columns, value_column, params, associations = true)
