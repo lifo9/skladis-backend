@@ -18,6 +18,13 @@ class RoomsController < ApplicationController
     render json: RoomSerializer.new(@room, { include: [:warehouse] })
   end
 
+  # GET /rooms/select-options
+  def select_options
+    authorize Room.all
+
+    render json: api_select_options(Room, [:name], :id, params)
+  end
+
   # POST /rooms
   def create
     authorize Room

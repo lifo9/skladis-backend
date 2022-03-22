@@ -3,6 +3,10 @@ class InvoicePolicy < ApplicationPolicy
     can_manage_invoice?
   end
 
+  def invoice_date_range?
+    can_manage_invoice?
+  end
+
   def show?
     can_manage_invoice?
   end

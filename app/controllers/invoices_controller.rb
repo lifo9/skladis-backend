@@ -11,6 +11,16 @@ class InvoicesController < ApplicationController
     render json: InvoiceSerializer.new(@invoices)
   end
 
+  # GET /invoices/invoice-date-range
+  def invoice_date_range
+    authorize Invoice.all
+
+    min_created_at = Invoice.minimum(:invoice_date)
+    max_created_at = Invoice.maximum(:invoice_date)
+
+    render json: { min: min_created_at, max: max_created_at }
+  end
+
   # GET /invoices/1
   def show
     authorize @invoice
@@ -40,7 +50,7 @@ class InvoicesController < ApplicationController
     if @invoice.invoice_items
       @invoice.invoice_items.destroy_all
     end
-    
+
     if @invoice.update(invoice_params)
       render json: InvoiceSerializer.new(@invoice)
     else

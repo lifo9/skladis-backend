@@ -7,6 +7,10 @@ class RoomPolicy < ApplicationPolicy
     can_manage_room?
   end
 
+  def select_options?
+    can_view_room_options?
+  end
+
   def create?
     can_manage_room?
   end
@@ -23,5 +27,9 @@ class RoomPolicy < ApplicationPolicy
 
   def can_manage_room?
     user.has_role?(:admin) || user.has_role?(:manager)
+  end
+
+  def can_view_room_options?
+    true
   end
 end
