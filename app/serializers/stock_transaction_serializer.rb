@@ -1,5 +1,5 @@
 class StockTransactionSerializer < ApiSerializer
-  attributes :action, :pieces
+  attributes :action, :pieces, :created_at
 
   belongs_to :user
   belongs_to :stock, meta: proc { |transaction, _|

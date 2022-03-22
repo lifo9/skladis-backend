@@ -24,4 +24,8 @@ class ProductSerializer < ApiSerializer
   attribute :barcode_code do |product|
     product.barcode&.barcode_code
   end
+
+  attribute :in_stock do |product|
+    Stock::pieces_total(product_id: product.id)
+  end
 end

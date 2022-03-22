@@ -9,7 +9,7 @@ class StocksController < ApplicationController
   def index
     authorize Stock.all
 
-    @stocks = api_index(Stock, params)
+    @stocks = api_index(Stock, params, true, Stock.where(pieces: 1..), true)
 
     render json: StockSerializer.new(@stocks, { include: [:product, :room] })
   end
