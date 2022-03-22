@@ -36,11 +36,11 @@ module Filterable
       filters = filterable_cols_strings.select { |col| params.keys.include?(col[:param]) || params.keys.include?("#{col[:param]}-from") || params.keys.include?("#{col[:param]}-to") }
                                        .map do |col|
         if params["#{col[:param]}-from"] && params["#{col[:param]}-to"]
-          [col[:name], Date.parse(params["#{col[:param]}-from"][0])..Date.parse(params["#{col[:param]}-to"][0])]
+          [col[:name], Date.parse(params["#{col[:param]}-from"][0])..Date.parse(params["#{col[:param]}-to"][0]) + 1]
         elsif params["#{col[:param]}-from"]
           [col[:name], Date.parse(params["#{col[:param]}-from"][0])..]
         elsif params["#{col[:param]}-to"]
-          [col[:name], ..Date.parse(params["#{col[:param]}-to"][0])]
+          [col[:name], ..Date.parse(params["#{col[:param]}-to"][0]) + 1]
         else
           [col[:name], params[col[:param]]]
         end

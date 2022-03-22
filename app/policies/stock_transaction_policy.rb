@@ -3,6 +3,10 @@ class StockTransactionPolicy < ApplicationPolicy
     can_manage_stock_transaction?
   end
 
+  def created_at_range?
+    can_manage_stock_transaction?
+  end
+
   def show?
     can_manage_stock_transaction?
   end

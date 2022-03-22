@@ -127,15 +127,16 @@ Rails.application.routes.draw do
   scope 'stocks', controller: :stocks do
     get '', action: :index
     get 'expiration-range', action: :expiration_range
-    get ':id', action: :show
     post 'in', action: :stock_in
     post 'out', action: :stock_out
     post 'transfer', action: :stock_transfer
+    get ':id', action: :show
   end
 
   # Stock Transactions
   scope 'stock-transactions', controller: :stock_transactions do
     get '', action: :index
+    get 'created-at-range', action: :created_at_range
     get ':id', action: :show
   end
 

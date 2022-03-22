@@ -11,6 +11,16 @@ class StockTransactionsController < ApplicationController
     render json: StockTransactionSerializer.new(@stock_transactions, { include: [:user, :stock, 'stock.product', 'stock.room'] })
   end
 
+  # GET /stock-transactions/created-at-range
+  def created_at_range
+    authorize StockTransaction.all
+
+    min_created_at = StockTransaction.minimum(:created_at)
+    max_created_at = StockTransaction.maximum(:created_at)
+
+    render json: { min: min_created_at, max: max_created_at }
+  end
+
   # GET /stock-transactions/1
   def show
     authorize @stock_transaction
