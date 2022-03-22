@@ -6,7 +6,7 @@ class StockTransactionsController < ApplicationController
   def index
     authorize StockTransaction.all
 
-    @stock_transactions = api_index(StockTransaction, params, false, false, false)
+    @stock_transactions = api_index(StockTransaction, params, true, false, false)
 
     # TODO: UGLY NESTED ASSOC FILTER - make generic :)
     @stock_transactions = @stock_transactions.joins(:stock).where(stock: { product_id: params[:product_id] }) if params[:product_id]
