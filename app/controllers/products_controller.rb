@@ -24,6 +24,8 @@ class ProductsController < ApplicationController
           critical = product.pieces_critical == 0 ? in_stock : product.pieces_critical
           if critical == 0
             100
+          elsif in_stock == 0
+            -critical
           else
             (100 / critical) * in_stock
           end
@@ -34,6 +36,8 @@ class ProductsController < ApplicationController
           critical = product.pieces_critical == 0 ? in_stock : product.pieces_critical
           if critical == 0
             100
+          elsif in_stock == 0
+            -critical
           else
             (100 / critical) * in_stock
           end
