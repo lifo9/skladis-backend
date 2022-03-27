@@ -1,5 +1,5 @@
 class InvoiceSerializer < ApiSerializer
-  attributes :invoice_code, :invoice_date
+  attributes :invoice_code, :invoice_date, :stocked_in
 
   has_many :invoice_items
   belongs_to :user
