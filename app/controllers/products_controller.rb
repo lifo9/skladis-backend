@@ -22,13 +22,21 @@ class ProductsController < ApplicationController
         @products = @products.sort_by do |product|
           in_stock = product.in_stock
           critical = product.pieces_critical == 0 ? in_stock : product.pieces_critical
-          (100 / critical) * in_stock
+          if critical == 0
+            100
+          else
+            (100 / critical) * in_stock
+          end
         end
       else
         @products = @products.sort_by do |product|
           in_stock = product.in_stock
           critical = product.pieces_critical == 0 ? in_stock : product.pieces_critical
-          (100 / critical) * in_stock
+          if critical == 0
+            100
+          else
+            (100 / critical) * in_stock
+          end
         end.reverse
       end
     end
