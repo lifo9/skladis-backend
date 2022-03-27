@@ -5,6 +5,10 @@ class InvoiceItemSerializer < ApiSerializer
     params && params[:invoice_date] == true
   }
 
+  attribute :product_name do |invoice_item|
+    invoice_item.product.name
+  end
+
   belongs_to :invoice
   belongs_to :product
   belongs_to :supplier
