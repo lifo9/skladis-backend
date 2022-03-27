@@ -104,6 +104,7 @@ Rails.application.routes.draw do
     get ':id', action: :show
     post '', action: :create
     patch ':id', action: :update
+    patch ':id/stocked-in', action: :update_stocked_in
     delete ':id', action: :destroy
     delete ':id/invoice-file', action: :destroy_invoice_file
   end
