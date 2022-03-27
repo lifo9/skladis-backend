@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   before_action :authorize_access_request!
-  before_action :set_invoice, only: %i[ show update destroy destroy_invoice_file ]
+  before_action :set_invoice, only: %i[ show update destroy destroy_invoice_file, update_stocked_in ]
 
   # GET /invoices
   def index
@@ -52,6 +52,16 @@ class InvoicesController < ApplicationController
     end
 
     if @invoice.update(invoice_params)
+      render json: InvoiceSerializer.new(@invoice)
+    else
+      render json: @invoice.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update_stocked_in
+    authorize Invoice
+
+    if @invoice.update(stocked_in: params[:stocked_in])
       render json: InvoiceSerializer.new(@invoice)
     else
       render json: @invoice.errors, status: :unprocessable_entity
