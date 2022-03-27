@@ -19,9 +19,17 @@ class ProductsController < ApplicationController
 
     if params[:order] && params[:order_by] == "in_stock_critical"
       if params[:order] == "asc"
-        @products = @products.sort_by { |product| (100 / product.pieces_critical) * product.in_stock }
+        @products = @products.sort_by do |product|
+          in_stock = product.in_stock
+          critical = product.pieces_critical == 0 ? in_stock : product.pieces_critical
+          (100 / critical) * in_stock
+        end
       else
-        @products = @products.sort_by { |product| (100 / product.pieces_critical) * product.in_stock }.reverse
+        @products = @products.sort_by do |product|
+          in_stock = product.in_stock
+          critical = product.pieces_critical == 0 ? in_stock : product.pieces_critical
+          (100 / critical) * in_stock
+        end.reverse
       end
     end
 
