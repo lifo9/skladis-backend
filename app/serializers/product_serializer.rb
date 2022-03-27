@@ -26,6 +26,6 @@ class ProductSerializer < ApiSerializer
   end
 
   attribute :in_stock do |product|
-    Stock::pieces_total(product_id: product.id)
+    product.in_stock
   end
 end

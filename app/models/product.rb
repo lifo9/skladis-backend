@@ -15,6 +15,10 @@ class Product < ApplicationRecord
 
   PERMITTED_PARAMS = [:name, :order_code, :pieces_ideal, :pieces_critical, supplier_ids: [], images: []].freeze
 
+  def in_stock
+    Stock::pieces_total(product_id: self.id)
+  end
+
   private
 
   def resize_images

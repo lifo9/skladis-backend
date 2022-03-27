@@ -8,6 +8,14 @@ class ProductsController < ApplicationController
 
     @products = api_index(Product, params)
 
+    if params[:order] && params[:order_by] == "in_stock"
+      if params[:order] == "asc"
+        @products = @products.sort_by { |product| product.in_stock }
+      else
+        @products = @products.sort_by { |product| product.in_stock }.reverse
+      end
+    end
+
     render json: ProductSerializer.new(@products, { include: [:suppliers] })
   end
 
