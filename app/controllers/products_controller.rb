@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  require 'will_paginate/array'
   before_action :authorize_access_request!
   before_action :set_product, only: %i[ show update destroy price_history ]
 
@@ -6,7 +7,7 @@ class ProductsController < ApplicationController
   def index
     authorize Product.all
 
-    @products = api_index(Product, params)
+    @products = api_index(Product, params, true, false, false)
 
     if params[:order] && params[:order_by] == "in_stock"
       if params[:order] == "asc"
@@ -15,6 +16,16 @@ class ProductsController < ApplicationController
         @products = @products.sort_by { |product| product.in_stock }.reverse
       end
     end
+
+    if params[:order] && params[:order_by] == "in_stock_critical"
+      if params[:order] == "asc"
+        @products = @products.sort_by { |product| (100 / product.pieces_critical) * product.in_stock }
+      else
+        @products = @products.sort_by { |product| (100 / product.pieces_critical) * product.in_stock }.reverse
+      end
+    end
+
+    @products = paginate @products
 
     render json: ProductSerializer.new(@products, { include: [:suppliers] })
   end
