@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: skladis
+  database: skladis_development
   pool: 150
   username: skladis
   password: <%= ENV['POSTGRES_PASSWORD'] %>
