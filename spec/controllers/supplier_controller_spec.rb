@@ -77,6 +77,7 @@ RSpec.describe SuppliersController, type: :controller do
         name: 'Supplier custom',
         ico: "4234554645",
         dic: "78668767",
+        ic_dph: "SK12345",
         url: "https://supplier-custom.com",
         street_name: '52nd Street',
         street_number: '123',
@@ -111,6 +112,7 @@ RSpec.describe SuppliersController, type: :controller do
         name: 'Supplier custom 2',
         ico: "42345546415",
         dic: "786687617",
+        ic_dph: "CZ54321",
         url: "https://supplier-custom-2.com",
         street_name: '53nd Street',
         street_number: '321',
@@ -129,6 +131,7 @@ RSpec.describe SuppliersController, type: :controller do
           expect(supplier.name).to eq(valid_new_params[:name])
           expect(supplier.ico).to eq(valid_new_params[:ico])
           expect(supplier.dic).to eq(valid_new_params[:dic])
+          expect(supplier.ic_dph).to eq(valid_new_params[:ic_dph])
           expect(supplier.url).to eq(valid_new_params[:url])
           expect(supplier.address.street_name).to eq(valid_new_params[:street_name])
           expect(supplier.address.street_number).to eq(valid_new_params[:street_number])
