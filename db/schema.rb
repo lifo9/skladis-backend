@@ -227,7 +227,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_27_191836) do
   add_foreign_key "invoice_items", "products"
   add_foreign_key "invoice_items", "suppliers"
   add_foreign_key "invoices", "users"
-  add_foreign_key "products", "barcodes", name: "products_barcode_id_fkey"
+  add_foreign_key "products", "barcodes"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"
   add_foreign_key "stock_transactions", "stocks"
