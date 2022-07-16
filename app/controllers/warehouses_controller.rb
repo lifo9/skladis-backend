@@ -29,16 +29,7 @@ class WarehousesController < ApplicationController
   def create
     authorize Warehouse
 
-    @warehouse = Warehouse.new(warehouse_params)
-
-    address = Address.find_by(address_params_without_coordinates)
-    if address.present?
-      address.coordinates = address_params[:coordinates]
-    else
-      address = Address.new(address_params)
-    end
-    address.save!
-    @warehouse.address = address
+    @warehouse = Warehouse.new(warehouse_address_params)
 
     serialized_warehouse = WarehouseSerializer.new(@warehouse, { include: [:address] })
 
@@ -53,16 +44,7 @@ class WarehousesController < ApplicationController
   def update
     authorize Warehouse
 
-    address = Address.find_by(address_params_without_coordinates)
-    if address.present?
-      address.coordinates = address_params[:coordinates]
-    else
-      address = Address.new(address_params)
-    end
-    address.save!
-    @warehouse.address = address
-
-    if @warehouse.update(warehouse_params)
+    if @warehouse.update(warehouse_address_params)
       render json: WarehouseSerializer.new(@warehouse, { include: [:address] })
     else
       render json: @warehouse.errors, status: :unprocessable_entity
@@ -84,15 +66,7 @@ class WarehousesController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
-  def warehouse_params
-    params.fetch(:warehouse, {}).permit(Warehouse::PERMITTED_PARAMS)
-  end
-
-  def address_params
-    params.fetch(:warehouse, {}).permit(Address::PERMITTED_PARAMS)
-  end
-
-  def address_params_without_coordinates
-    params.fetch(:warehouse, {}).permit(Address::PERMITTED_PARAMS_WITHOUT_COORDINATES)
+  def warehouse_address_params
+    params.fetch(:warehouse, {}).permit(Warehouse::PERMITTED_PARAMS + [address_attributes: Address::PERMITTED_PARAMS])
   end
 end

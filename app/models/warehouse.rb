@@ -8,6 +8,8 @@ class Warehouse < ApplicationRecord
   belongs_to :address, class_name: Address.to_s
   has_many :rooms, class_name: Room.to_s
 
+  accepts_nested_attributes_for :address
+
   PERMITTED_PARAMS = [:name].freeze
 
   private

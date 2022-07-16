@@ -79,13 +79,15 @@ RSpec.describe SuppliersController, type: :controller do
         dic: "78668767",
         ic_dph: "SK12345",
         url: "https://supplier-custom.com",
-        street_name: '52nd Street',
-        street_number: '123',
-        city: 'New York',
-        zip: '123',
-        country: 'USA',
-        coordinates: [1, 2],
-        contact_id: contact.id
+        contact_id: contact.id,
+        address_attributes: {
+          street_name: '52nd Street',
+          street_number: '123',
+          city: 'New York',
+          zip: '123',
+          country: 'USA',
+          coordinates: [1, 2],
+        }
       } }
 
       context "with valid parameters" do
@@ -114,13 +116,15 @@ RSpec.describe SuppliersController, type: :controller do
         dic: "786687617",
         ic_dph: "CZ54321",
         url: "https://supplier-custom-2.com",
-        street_name: '53nd Street',
-        street_number: '321',
-        city: 'London',
-        zip: '111',
-        country: 'UK',
-        coordinates: [3, 4],
-        contact_id: contact.id
+        contact_id: contact.id,
+        address_attributes: {
+          street_name: '53nd Street',
+          street_number: '321',
+          city: 'London',
+          zip: '111',
+          country: 'UK',
+          coordinates: [3, 4]
+        }
       } }
 
       context "with valid parameters" do
@@ -133,12 +137,12 @@ RSpec.describe SuppliersController, type: :controller do
           expect(supplier.dic).to eq(valid_new_params[:dic])
           expect(supplier.ic_dph).to eq(valid_new_params[:ic_dph])
           expect(supplier.url).to eq(valid_new_params[:url])
-          expect(supplier.address.street_name).to eq(valid_new_params[:street_name])
-          expect(supplier.address.street_number).to eq(valid_new_params[:street_number])
-          expect(supplier.address.city).to eq(valid_new_params[:city])
-          expect(supplier.address.zip).to eq(valid_new_params[:zip])
-          expect(supplier.address.country).to eq(valid_new_params[:country])
-          expect(supplier.address.coordinates.to_a).to eq(valid_new_params[:coordinates])
+          expect(supplier.address.street_name).to eq(valid_new_params[:address_attributes][:street_name])
+          expect(supplier.address.street_number).to eq(valid_new_params[:address_attributes][:street_number])
+          expect(supplier.address.city).to eq(valid_new_params[:address_attributes][:city])
+          expect(supplier.address.zip).to eq(valid_new_params[:address_attributes][:zip])
+          expect(supplier.address.country).to eq(valid_new_params[:address_attributes][:country])
+          expect(supplier.address.coordinates.to_a).to eq(valid_new_params[:address_attributes][:coordinates])
           expect(supplier.contact.id).to eq(valid_new_params[:contact_id])
         end
         it "renders a JSON response with the Supplier" do

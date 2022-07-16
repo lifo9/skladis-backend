@@ -9,6 +9,8 @@ class Supplier < ApplicationRecord
   belongs_to :contact, class_name: Contact.to_s, optional: true
   has_and_belongs_to_many :products, class_name: Product.to_s
 
+  accepts_nested_attributes_for :address
+
   PERMITTED_PARAMS = [:name, :ico, :dic, :ic_dph, :url, :free_delivery_from, :contact_id].freeze
 
   private

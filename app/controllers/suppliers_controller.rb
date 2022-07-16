@@ -29,21 +29,12 @@ class SuppliersController < ApplicationController
   def create
     authorize Supplier
 
-    @supplier = Supplier.new(supplier_params)
+    @supplier = Supplier.new(supplier_address_params)
 
-    address = Address.find_by(address_params_without_coordinates)
-    if address.present?
-      address.coordinates = address_params[:coordinates]
-    else
-      address = Address.new(address_params)
-    end
-    address.save!
-    @supplier.address = address
-
-    serialized_warehouse = SupplierSerializer.new(@supplier, { include: [:address, :contact] })
+    serialized_supplier = SupplierSerializer.new(@supplier, { include: [:address, :contact] })
 
     if @supplier.save
-      render json: serialized_warehouse, status: :created
+      render json: serialized_supplier, status: :created
     else
       render json: @supplier.errors, status: :unprocessable_entity
     end
@@ -53,16 +44,7 @@ class SuppliersController < ApplicationController
   def update
     authorize Supplier
 
-    address = Address.find_by(address_params_without_coordinates)
-    if address.present?
-      # address.coordinates = address_params[:coordinates]
-    else
-      address = Address.new(address_params)
-    end
-    address.save!
-    @supplier.address = address
-
-    if @supplier.update(supplier_params)
+    if @supplier.update(supplier_address_params)
       render json: SupplierSerializer.new(@supplier, { include: [:address, :contact] })
     else
       render json: @supplier.errors, status: :unprocessable_entity
@@ -83,16 +65,7 @@ class SuppliersController < ApplicationController
     @supplier = Supplier.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
-  def supplier_params
-    params.fetch(:supplier, {}).permit(Supplier::PERMITTED_PARAMS)
-  end
-
-  def address_params
-    params.fetch(:supplier, {}).permit(Address::PERMITTED_PARAMS)
-  end
-
-  def address_params_without_coordinates
-    params.fetch(:supplier, {}).permit(Address::PERMITTED_PARAMS_WITHOUT_COORDINATES)
+  def supplier_address_params
+    params.fetch(:supplier, {}).permit(Supplier::PERMITTED_PARAMS + [address_attributes: Address::PERMITTED_PARAMS])
   end
 end

@@ -74,12 +74,14 @@ RSpec.describe WarehousesController, type: :controller do
     describe "#create" do
       let(:valid_params) { {
         name: 'Warehouse custom',
-        street_name: '52nd Street',
-        street_number: '123',
-        city: 'New York',
-        zip: '123',
-        country: 'USA',
-        coordinates: [1, 2]
+        address_attributes: {
+          street_name: '52nd Street',
+          street_number: '123',
+          city: 'New York',
+          zip: '123',
+          country: 'USA',
+          coordinates: [1, 2]
+        }
       } }
 
       context "with valid parameters" do
@@ -103,12 +105,14 @@ RSpec.describe WarehousesController, type: :controller do
 
       let(:valid_new_params) { {
         name: 'Warehouse update',
-        street_name: '51nd Street',
-        street_number: '321',
-        city: 'New New York',
-        zip: '123',
-        country: 'USAA',
-        coordinates: [2, 3]
+        address_attributes: {
+          street_name: '51nd Street',
+          street_number: '321',
+          city: 'New New York',
+          zip: '123',
+          country: 'USAA',
+          coordinates: [2, 3]
+        }
       } }
 
       context "with valid parameters" do
@@ -117,12 +121,12 @@ RSpec.describe WarehousesController, type: :controller do
           warehouse.reload
 
           expect(warehouse.name).to eq(valid_new_params[:name])
-          expect(warehouse.address.street_name).to eq(valid_new_params[:street_name])
-          expect(warehouse.address.street_number).to eq(valid_new_params[:street_number])
-          expect(warehouse.address.city).to eq(valid_new_params[:city])
-          expect(warehouse.address.zip).to eq(valid_new_params[:zip])
-          expect(warehouse.address.country).to eq(valid_new_params[:country])
-          expect(warehouse.address.coordinates.to_a).to eq(valid_new_params[:coordinates])
+          expect(warehouse.address.street_name).to eq(valid_new_params[:address_attributes][:street_name])
+          expect(warehouse.address.street_number).to eq(valid_new_params[:address_attributes][:street_number])
+          expect(warehouse.address.city).to eq(valid_new_params[:address_attributes][:city])
+          expect(warehouse.address.zip).to eq(valid_new_params[:address_attributes][:zip])
+          expect(warehouse.address.country).to eq(valid_new_params[:address_attributes][:country])
+          expect(warehouse.address.coordinates.to_a).to eq(valid_new_params[:address_attributes][:coordinates])
         end
         it "renders a JSON response with the warehouse" do
           patch :update, params: { id: warehouse.id, warehouse: valid_new_params }
