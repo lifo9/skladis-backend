@@ -8,14 +8,14 @@ class StockService
     PaperTrail.request.disable_model(StockTransaction)
   end
 
-  def stock_in(location_id, quantity)
-    stock = Stock.find_by(product_id: @product_id, location_id: location_id, expiration: @expiration)
+  def stock_in(room_id, location_id, quantity)
+    stock = Stock.find_by(product_id: @product_id, room_id: room_id, location_id: location_id, expiration: @expiration)
 
     ActiveRecord::Base.transaction do
       if stock.present?
         stock.update!(pieces: stock.pieces + quantity)
       else
-        stock = Stock.create!(product_id: @product_id, location_id: location_id, expiration: @expiration, pieces: quantity)
+        stock = Stock.create!(product_id: @product_id, room_id: room_id, location_id: location_id, expiration: @expiration, pieces: quantity)
       end
 
       StockTransaction.create!(user_id: @user_id, stock: stock, action: :stock_in, pieces: quantity)
@@ -24,8 +24,8 @@ class StockService
     stock
   end
 
-  def stock_out(location_id, quantity)
-    stock = Stock.find_by!(product_id: @product_id, location_id: location_id, expiration: @expiration)
+  def stock_out(room_id, location_id, quantity)
+    stock = Stock.find_by!(product_id: @product_id, room_id: room_id, location_id: location_id, expiration: @expiration)
 
     ActiveRecord::Base.transaction do
       stock.update!(pieces: stock.pieces - quantity)

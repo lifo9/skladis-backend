@@ -5,10 +5,10 @@ class Stock < ApplicationRecord
 
   belongs_to :product, class_name: Product.to_s
   belongs_to :room, class_name: Room.to_s
-  belongs_to :location, class_name: Location.to_s
+  belongs_to :location, class_name: Location.to_s, optional: true
 
-  validates :product, uniqueness: { scope: [:product, :location, :expiration] }, presence: true
-  validates :room, uniqueness: { scope: [:product, :location, :expiration] }, presence: true
+  validates :product, uniqueness: { scope: [:product, :room, :location, :expiration] }, presence: true
+  validates :room, uniqueness: { scope: [:product, :room, :location, :expiration] }, presence: true
   validates :pieces, comparison: { greater_than_or_equal_to: 0, only_integer: true }, presence: true
 
   def self.pieces_total(product_id: nil, location_id: nil, expiration: nil)
@@ -20,6 +20,6 @@ class Stock < ApplicationRecord
     Stock.where(query).sum(:pieces)
   end
 
-  PERMITTED_PARAMS_IN_OUT = [:product_id, :expiration, :location_id, :quantity].freeze
+  PERMITTED_PARAMS_IN_OUT = [:product_id, :expiration, :room_id, :location_id, :quantity].freeze
   PERMITTED_PARAMS_TRANSFER = [:product_id, :expiration, :location_from_id, :location_to_id, :quantity].freeze
 end
