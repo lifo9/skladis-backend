@@ -15,10 +15,11 @@ class StockTransactionsController < ApplicationController
       @stock_transactions = @stock_transactions.joins(:stock).where(stock: { room_id: room_ids })
     end
     @stock_transactions = @stock_transactions.joins(:stock).where(stock: { room_id: params[:room_id] }) if params[:room_id]
+    @stock_transactions = @stock_transactions.joins(:stock).where(stock: { location_id: params[:location_id] }) if params[:location_id]
 
     @stock_transactions = paginate @stock_transactions
 
-    render json: StockTransactionSerializer.new(@stock_transactions, { include: [:user, :stock, 'stock.product', 'stock.room'] })
+    render json: StockTransactionSerializer.new(@stock_transactions, { include: [:user, :stock, 'stock.product', 'stock.room', 'stock.location'] })
   end
 
   # GET /stock-transactions/created-at-range
@@ -35,7 +36,7 @@ class StockTransactionsController < ApplicationController
   def show
     authorize @stock_transaction
 
-    render json: StockTransactionSerializer.new(@stock_transaction, { include: [:user, :stock, 'stock.product', 'stock.room'] })
+    render json: StockTransactionSerializer.new(@stock_transaction, { include: [:user, :stock, 'stock.product', 'stock.room', 'stock.location'] })
   end
 
   private

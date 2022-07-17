@@ -3,4 +3,5 @@ class StockSerializer < ApiSerializer
 
   belongs_to :product
   belongs_to :room
+  belongs_to :location
 end

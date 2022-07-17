@@ -76,6 +76,16 @@ Rails.application.routes.draw do
     delete ':id', action: :destroy
   end
 
+  # Locations
+  scope 'locations', controller: :locations do
+    get '', action: :index
+    get 'select-options', action: :select_options
+    get ':id', action: :show
+    post '', action: :create
+    patch ':id', action: :update
+    delete ':id', action: :destroy
+  end
+
   # Suppliers
   scope 'suppliers', controller: :suppliers do
     get '', action: :index

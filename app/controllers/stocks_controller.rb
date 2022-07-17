@@ -11,7 +11,7 @@ class StocksController < ApplicationController
 
     @stocks = api_index(Stock, params, true, Stock.where(pieces: 1..), true)
 
-    render json: StockSerializer.new(@stocks, { include: [:product, :room] })
+    render json: StockSerializer.new(@stocks, { include: [:product, :room, :location] })
   end
 
   # GET /stocks/expiration-range
@@ -28,25 +28,25 @@ class StocksController < ApplicationController
   def show
     authorize @stock
 
-    render json: StockSerializer.new(@stock, { include: [:product, :room] })
+    render json: StockSerializer.new(@stock, { include: [:product, :room, :location] })
   end
 
   # POST /stocks/in
   def stock_in
     authorize Stock
 
-    stock = @stock_service.stock_in(stock_in_out_params[:room_id], stock_in_out_params[:quantity])
+    stock = @stock_service.stock_in(stock_in_out_params[:room_id], stock_in_out_params[:location_id], stock_in_out_params[:quantity])
 
-    render json: StockSerializer.new(stock, { include: [:product, :room] })
+    render json: StockSerializer.new(stock, { include: [:product, :room, :location] })
   end
 
   # POST /stocks/out
   def stock_out
     authorize Stock
 
-    stock = @stock_service.stock_out(stock_in_out_params[:room_id], stock_in_out_params[:quantity])
+    stock = @stock_service.stock_out(stock_in_out_params[:room_id], stock_in_out_params[:location_id], stock_in_out_params[:quantity])
 
-    render json: StockSerializer.new(stock, { include: [:product, :room] })
+    render json: StockSerializer.new(stock, { include: [:product, :room, :location] })
   end
 
   # POST /stocks/transfer
@@ -56,10 +56,12 @@ class StocksController < ApplicationController
     stocks = @stock_service.transfer(
       stock_transfer_params[:room_from_id],
       stock_transfer_params[:room_to_id],
+      stock_transfer_params[:location_from_id],
+      stock_transfer_params[:location_to_id],
       stock_transfer_params[:quantity]
     )
 
-    render json: stocks.transform_values { |stock| StockSerializer.new(stock, { include: [:product, :room] }) }
+    render json: stocks.transform_values { |stock| StockSerializer.new(stock, { include: [:product, :room, :location] }) }
   end
 
   private

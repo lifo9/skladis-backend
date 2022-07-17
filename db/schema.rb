@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_05_161957) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_17_174517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,6 +92,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_161957) do
     t.index ["user_id"], name: "index_invoices_on_user_id"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.bigint "room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_locations_on_room_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -156,7 +164,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_161957) do
     t.integer "pieces", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_id", "room_id", "expiration"], name: "index_stocks_on_product_id_and_room_id_and_expiration", unique: true
+    t.bigint "location_id"
+    t.index ["location_id"], name: "index_stocks_on_location_id"
+    t.index ["product_id", "room_id", "location_id", "expiration"], name: "idx_stock_unique_idx", unique: true
     t.index ["product_id"], name: "index_stocks_on_product_id"
     t.index ["room_id"], name: "index_stocks_on_room_id"
   end
@@ -228,11 +238,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_161957) do
   add_foreign_key "invoice_items", "products"
   add_foreign_key "invoice_items", "suppliers"
   add_foreign_key "invoices", "users"
+  add_foreign_key "locations", "rooms"
   add_foreign_key "products", "barcodes"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"
   add_foreign_key "stock_transactions", "stocks"
   add_foreign_key "stock_transactions", "users"
+  add_foreign_key "stocks", "locations"
   add_foreign_key "stocks", "products"
   add_foreign_key "stocks", "rooms"
   add_foreign_key "suppliers", "addresses"

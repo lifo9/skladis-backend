@@ -9,7 +9,6 @@ module Filterable
           param_split[0]
         end
       end.compact
-
       if associations
         all_assoc_attributes = name
                                  .constantize
