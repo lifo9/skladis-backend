@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_05_161957) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_17_131721) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -90,6 +90,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_161957) do
     t.datetime "updated_at", null: false
     t.boolean "stocked_in", default: false, null: false
     t.index ["user_id"], name: "index_invoices_on_user_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.bigint "room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_locations_on_room_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -228,6 +236,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_161957) do
   add_foreign_key "invoice_items", "products"
   add_foreign_key "invoice_items", "suppliers"
   add_foreign_key "invoices", "users"
+  add_foreign_key "locations", "rooms"
   add_foreign_key "products", "barcodes"
   add_foreign_key "registration_invitations", "users"
   add_foreign_key "rooms", "warehouses"
