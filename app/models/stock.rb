@@ -11,9 +11,10 @@ class Stock < ApplicationRecord
   validates :room, uniqueness: { scope: [:product, :room, :location, :expiration] }, presence: true
   validates :pieces, comparison: { greater_than_or_equal_to: 0, only_integer: true }, presence: true
 
-  def self.pieces_total(product_id: nil, location_id: nil, expiration: nil)
+  def self.pieces_total(product_id: nil, room_id: nil, location_id: nil, expiration: nil)
     query = {}
     query[:product_id] = product_id if product_id.present?
+    query[:room_id] = room_id if room_id.present?
     query[:location_id] = location_id if location_id.present?
     query[:expiration] = expiration if expiration.present?
 
@@ -21,5 +22,5 @@ class Stock < ApplicationRecord
   end
 
   PERMITTED_PARAMS_IN_OUT = [:product_id, :expiration, :room_id, :location_id, :quantity].freeze
-  PERMITTED_PARAMS_TRANSFER = [:product_id, :expiration, :location_from_id, :location_to_id, :quantity].freeze
+  PERMITTED_PARAMS_TRANSFER = [:product_id, :expiration, :room_from_id, :room_to_id, :location_from_id, :location_to_id, :quantity].freeze
 end

@@ -22,7 +22,13 @@ class RoomsController < ApplicationController
   def select_options
     authorize Room.all
 
-    render json: api_select_options(Room, [:name], :id, params)
+    select_options = Room.all.pluck(:id, :name).map { |option| {
+      id: option[0],
+      label: option[1],
+      location_ids: Room.find(option[0]).location_ids
+    } }
+
+    render json: select_options
   end
 
   # POST /rooms

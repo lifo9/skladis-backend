@@ -36,9 +36,9 @@ class StockService
     stock
   end
 
-  def transfer(location_from_id, location_to_id, quantity)
-    stock_from = Stock.find_by!(product_id: @product_id, location_id: location_from_id, expiration: @expiration)
-    stock_to = Stock.find_by(product_id: @product_id, location_id: location_to_id, expiration: @expiration)
+  def transfer(room_from_id, room_to_id, location_from_id, location_to_id, quantity)
+    stock_from = Stock.find_by!(product_id: @product_id, room_id: room_from_id, location_id: location_from_id, expiration: @expiration)
+    stock_to = Stock.find_by(product_id: @product_id, room_id: room_to_id, location_id: location_to_id, expiration: @expiration)
 
     ActiveRecord::Base.transaction do
       stock_from.update!(pieces: stock_from.pieces - quantity)
@@ -46,7 +46,7 @@ class StockService
       if stock_to.present?
         stock_to.update!(pieces: stock_to.pieces + quantity)
       else
-        stock_to = Stock.create!(product_id: @product_id, location_id: location_to_id, expiration: @expiration, pieces: quantity)
+        stock_to = Stock.create!(product_id: @product_id, room_id: room_to_id, location_id: location_to_id, expiration: @expiration, pieces: quantity)
       end
 
       StockTransaction.create!(user_id: @user_id,

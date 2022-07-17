@@ -54,6 +54,8 @@ class StocksController < ApplicationController
     authorize Stock
 
     stocks = @stock_service.transfer(
+      stock_transfer_params[:room_from_id],
+      stock_transfer_params[:room_to_id],
       stock_transfer_params[:location_from_id],
       stock_transfer_params[:location_to_id],
       stock_transfer_params[:quantity]
