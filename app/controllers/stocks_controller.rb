@@ -35,7 +35,7 @@ class StocksController < ApplicationController
   def stock_in
     authorize Stock
 
-    stock = @stock_service.stock_in(stock_in_out_params[:room_id], stock_in_out_params[:quantity])
+    stock = @stock_service.stock_in(stock_in_out_params[:location_id], stock_in_out_params[:quantity])
 
     render json: StockSerializer.new(stock, { include: [:product, :room] })
   end
@@ -44,7 +44,7 @@ class StocksController < ApplicationController
   def stock_out
     authorize Stock
 
-    stock = @stock_service.stock_out(stock_in_out_params[:room_id], stock_in_out_params[:quantity])
+    stock = @stock_service.stock_out(stock_in_out_params[:location_id], stock_in_out_params[:quantity])
 
     render json: StockSerializer.new(stock, { include: [:product, :room] })
   end
