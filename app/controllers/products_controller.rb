@@ -19,6 +19,7 @@ class ProductsController < ApplicationController
 
     if params[:order] && params[:order_by] == "in_stock_critical"
       if params[:order] == "asc"
+        @products = @products.filter { |product| product.pieces_critical.present? && product.in_stock <= product.pieces_critical }
         @products = @products.sort_by do |product|
           in_stock = product.in_stock
           critical = product.pieces_critical == 0 ? in_stock : product.pieces_critical
