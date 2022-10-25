@@ -16,13 +16,13 @@
 # end
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
-	allow do
-		origins 'http://localhost:3010', 'https://www.skladis.com'
+  allow do
+    origins 'http://localhost:3010', 'https://skladis.com'
 
-		resource '*',
-		         headers: :any,
-		         credentials: true,
-		         methods: [:get, :post, :put, :patch, :delete, :options, :head],
-						 expose: %w[Per-Page Total Link]
-	end
+    resource '*',
+             headers: :any,
+             credentials: true,
+             methods: [:get, :post, :put, :patch, :delete, :options, :head],
+             expose: %w[Per-Page Total Link]
+  end
 end
