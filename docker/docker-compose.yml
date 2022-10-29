@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  skladis-backend:
+    image: skladis-backend
+    build:
+      context: '../app'
+      dockerfile: '../app/Dockerfile'
+      args:
+        RAILS_ENV: 'development'
+    container_name: skladis-backend
+    restart: always
+    environment:
+      PGHOST: skladis-db
+      DISABLE_SPRING: true
+      POSTGRES_PASSWORD: ${POSTGRES_SKLADIS_PASSWORD}
+      REDIS_URL: "redis://redis:6379"
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY}
+      S3_SECRET_KEY: ${S3_SECRET_KEY}
+      S3_REGION: ${S3_REGION}
+      S3_BUCKET: ${S3_BUCKET}
+      TZ: ${TIMEZONE}
+    volumes:
+      - ../app/:/app/
+    ports:
+      - "127.0.0.1:3009:3009"
+    depends_on:
+      - skladis-db
+      - redis
+
+  skladis-db:
+    image: docker.io/postgres:13-alpine
+    container_name: skladis-db
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: ${TIMEZONE}
+
+  redis:
+    image: docker.io/redis:alpine
+    container_name: skladis-redis
+    volumes:
+      - ./redis:/data
+    environment:
+      TZ: ${TIMEZONE}
+    command: redis-server
+
+  adminer:
+    container_name: skladis-adminer
+    image: adminer
+    restart: always
+    ports:
+      - "127.0.0.1:3011:8080"
