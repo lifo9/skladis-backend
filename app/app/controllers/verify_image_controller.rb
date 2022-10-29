@@ -8,7 +8,7 @@ class VerifyImageController < ApplicationController
     end
 
     raise Pundit::NotAuthorizedError
-    
+
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     raise Pundit::NotAuthorizedError
   end
