@@ -114,6 +114,6 @@ Rails.application.configure do
   # disable active storage routes
   config.active_storage.draw_routes = false
 
-  config.x.frontend_url = 'https://www.skladis.com'
+  config.x.frontend_url = 'https://skladis.com'
   config.x.static_url = 'https://static.skladis.com'
 end
