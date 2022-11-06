@@ -22,7 +22,7 @@ class InvoicePolicy < ApplicationPolicy
   def update_stocked_in?
     can_manage_invoice?
   end
-  
+
   def destroy?
     can_manage_invoice?
   end
