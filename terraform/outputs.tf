@@ -15,3 +15,8 @@ output "bucket_iam_secret_key" {
   value     = module.s3_bucket.bucket_iam_secret_key
   sensitive = true
 }
+
+output "cloudfront_signing_key_pair_id" {
+  value     = module.cloudfront_static_files.cloudfront_signing_key_pair_id
+  sensitive = true
+}

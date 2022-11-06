@@ -28,6 +28,23 @@ resource "aws_s3_bucket_policy" "bucket_cloudfront_policy" {
   })
 }
 
+# Key group
+resource "aws_cloudfront_key_group" "default" {
+  items = [
+    aws_cloudfront_public_key.default.id
+  ]
+  name = "skladis-signing-keys"
+}
+
+resource "aws_cloudfront_public_key" "default" {
+  name        = "skladis-key"
+  encoded_key = file("${path.module}/signing_key.pub")
+
+  lifecycle {
+    ignore_changes = [encoded_key]
+  }
+}
+
 # CloudFront distribution
 locals {
   s3_origin_id = "${var.domain_name}_origin"
@@ -52,12 +69,15 @@ resource "aws_cloudfront_distribution" "cloudfront" {
 
     forwarded_values {
       query_string = false
-      headers      = ["Origin"]
 
       cookies {
         forward = "none"
       }
     }
+
+    trusted_key_groups = [
+      aws_cloudfront_key_group.default.id
+    ]
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -72,8 +92,9 @@ resource "aws_cloudfront_distribution" "cloudfront" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.certificate.arn
-    ssl_support_method  = "sni-only"
+    acm_certificate_arn      = aws_acm_certificate.certificate.arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
   }
 }
 
