@@ -1,0 +1,44 @@
+# S3 bucket for static files
+resource "aws_s3_bucket" "s3_bucket" {
+  bucket = var.bucket_name
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# disallow public access
+resource "aws_s3_bucket_public_access_block" "public_access" {
+  bucket                  = aws_s3_bucket.s3_bucket.id
+  block_public_acls       = true
+  block_public_policy     = false
+  ignore_public_acls      = true
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "default" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  policy = templatefile("${path.module}/static_files_bucket_policy.json.tmpl", {
+    s3_bucket_arn = aws_s3_bucket.s3_bucket.arn,
+    user_agent    = var.bucket_allowed_user_agent
+  })
+}
+
+# create IAM role
+resource "aws_iam_user" "s3_bucket_iam" {
+  name = var.bucket_iam_role_name
+  path = "/skladis/"
+}
+
+resource "aws_iam_access_key" "s3_bucket_iam" {
+  user = aws_iam_user.s3_bucket_iam.name
+}
+
+resource "aws_iam_user_policy" "default" {
+  name = var.bucket_iam_policy_name
+  user = aws_iam_user.s3_bucket_iam.name
+
+  policy = templatefile("${path.module}/static_files_bucket_iam.json.tmpl", {
+    s3_bucket_arn = aws_s3_bucket.s3_bucket.arn
+  })
+}

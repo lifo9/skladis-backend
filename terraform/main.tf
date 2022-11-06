@@ -12,3 +12,12 @@ terraform {
 provider "aws" {
   region = "eu-central-1"
 }
+
+module "s3_bucket" {
+  source = "./modules/aws-s3-static-files-bucket"
+
+  bucket_name               = "skladis-static"
+  bucket_allowed_user_agent = var.s3_bucket_allowed_user_agent
+  bucket_iam_role_name      = "skladis-s3"
+  bucket_iam_policy_name    = "skladis-s3-rw"
+}

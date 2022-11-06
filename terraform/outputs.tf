@@ -1,21 +1,17 @@
-output "skladis_static_bucket_bucket_name" {
-  value = aws_s3_bucket.skladis_static_bucket.bucket
+output "bucket_arn" {
+  value = module.s3_bucket.bucket_arn
 }
 
-output "skladis_static_bucket_arn" {
-  value = aws_s3_bucket.skladis_static_bucket.arn
+output "bucket_endpoint" {
+  value = module.s3_bucket.bucket_endpoint
 }
 
-output "skladis_static_bucket_endpoint" {
-  value = aws_s3_bucket.skladis_static_bucket.bucket_regional_domain_name
-}
-
-output "skladis_static_iam_access_key" {
-  value     = aws_iam_access_key.static_files_bucket_iam.id
+output "bucket_iam_access_key" {
+  value     = module.s3_bucket.bucket_iam_access_key
   sensitive = true
 }
 
-output "skladis_static_iam_secret_key" {
-  value     = aws_iam_access_key.static_files_bucket_iam.secret
+output "bucket_iam_secret_key" {
+  value     = module.s3_bucket.bucket_iam_secret_key
   sensitive = true
 }
