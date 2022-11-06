@@ -11,20 +11,12 @@ resource "aws_s3_bucket" "s3_bucket" {
 resource "aws_s3_bucket_public_access_block" "public_access" {
   bucket                  = aws_s3_bucket.s3_bucket.id
   block_public_acls       = true
-  block_public_policy     = false
+  block_public_policy     = true
   ignore_public_acls      = true
-  restrict_public_buckets = false
+  restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_policy" "default" {
-  bucket = aws_s3_bucket.s3_bucket.id
-  policy = templatefile("${path.module}/static_files_bucket_policy.json.tmpl", {
-    s3_bucket_arn = aws_s3_bucket.s3_bucket.arn,
-    user_agent    = var.bucket_allowed_user_agent
-  })
-}
-
-# create IAM role
+# create IAM role for Rails backend
 resource "aws_iam_user" "s3_bucket_iam" {
   name = var.bucket_iam_role_name
   path = "/skladis/"

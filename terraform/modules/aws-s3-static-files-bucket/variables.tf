@@ -9,8 +9,3 @@ variable "bucket_iam_role_name" {
 variable "bucket_iam_policy_name" {
   type = string
 }
-
-variable "bucket_allowed_user_agent" {
-  type      = string
-  sensitive = true
-}
