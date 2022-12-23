@@ -65,7 +65,7 @@ class ApplicationController < ActionController::API
   end
 
   def status
-    render json: { status: 'ok' }
+    render json: { status: 'ok', test: 'test' }
   end
 
   private
