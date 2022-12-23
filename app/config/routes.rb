@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  root to: "application#custom_bad_request"
+
+  # Status page
+  get '/status', to: 'application#status'
+
   scope '/', defaults: { format: 'json' }, as: :api do
     post 'refresh', controller: :refresh, action: :create
     post 'signin', controller: :sign_in, action: :create
@@ -152,5 +157,4 @@ Rails.application.routes.draw do
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root to: "application#bad_request"
 end
