@@ -1,0 +1,29 @@
+name: Deploy to production
+on:
+  push:
+    branches: [ master ]
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+  FLY_MACHINE_ID: ${{ secrets.FLY_MACHINE_ID }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Setup Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Authenticate Fly registry
+        run: flyctl auth docker
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: registry.fly.io/$FLY_APP_NAME:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Deploy to production
+        run: flyctl m update -a $FLY_APP_NAME $FLY_MACHINE_ID -y
