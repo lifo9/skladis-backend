@@ -1,28 +1,81 @@
-FROM docker.io/ruby:3.1.2-alpine
+ARG RUBY_VERSION
+ARG BUNDLER_VERSION
 
-# Minimal requirements to run a Rails app
-RUN apk add --no-cache --update build-base \
+###################
+### Build stage ###
+###################
+FROM docker.io/ruby:${RUBY_VERSION}-alpine as builder
+
+# Update system
+RUN apk update && apk upgrade && \
+    apk add --no-cache --update  \
+    build-base \
     linux-headers \
     git \
     postgresql-dev \
     tzdata \
     imagemagick \
-    libc6-compat
+    libc6-compat && \
+    rm -rf /var/cache/apk/*
 
-RUN gem install foreman bundle
+# Install bundler
+ARG BUNDLER_VERSION
+RUN gem install bundler --no-document -v $BUNDLER_VERSION
 
+# Set workdir
+ENV APP_HOME /app
+ENV BUNDLER_DIR /vendor/bundle
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+# Install dependencies
 ARG RAILS_ENV=production
+COPY Gemfile* $APP_HOME/
+COPY .ruby-version $APP_HOME/
+RUN if [[ "$RAILS_ENV" = production ]] ; then bundle config --local without development:test ; fi
+RUN bundle config set --local path $BUNDLER_DIR && \
+    bundle install && \
+    rm -rf $APP_HOME/tmp/* && \
+    rm -rf vendor/bundle/ruby/2.5.0/cache/*.gem && \
+    find $BUNDLER_DIR/ruby/3.1.0/gems/ -name "*.c" -delete && \
+    find $BUNDLER_DIR/ruby/3.1.0/gems/ -name "*.o" -delete
+COPY . $APP_HOME
 
+########################
+### Production stage ###
+########################
+FROM docker.io/ruby:${RUBY_VERSION}-alpine
+ARG RAILS_ENV=production
+ARG RAILS_SERVE_STATIC_FILES=true
+
+# ENV variables
+ENV LANG=C.UTF-8
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_ENV=$RAILS_ENV
+ENV RAILS_SERVE_STATIC_FILES=$RAILS_SERVE_STATIC_FILES
 
-WORKDIR /app
-COPY .ruby-version .
-COPY Gemfile* ./
-RUN bundle install
+# Update system
+RUN apk update && apk upgrade && \
+    apk add --no-cache --update \
+    postgresql-client \
+    tzdata \
+    imagemagick \
+    libc6-compat && \
+    rm -rf /var/cache/apk/*
 
-COPY . .
+# Set workdir
+ENV APP_HOME /app
+ENV BUNDLER_DIR /vendor/bundle
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+COPY --from=builder $BUNDLER_DIR $BUNDLER_DIR
+COPY --from=builder /app $APP_HOME
+RUN bundle config --local path $BUNDLER_DIR && \
+    bundle config --local without development:test:assets
 
 EXPOSE 3009
 
-CMD ["sh", "-c", "rails db:migrate && foreman start -f Procfile"]
+CMD rm -f tmp/pids/server.pid \
+  && bundle exec rails db:migrate \
+  && bundle exec rails s -b 0.0.0.0 -p 3009

@@ -8,6 +8,8 @@ services:
       dockerfile: '../app/Dockerfile'
       args:
         RAILS_ENV: 'development'
+        RUBY_VERSION: ${RUBY_VERSION}
+        BUNDLER_VERSION: ${BUNDLER_VERSION}
     container_name: skladis-backend
     restart: always
     environment:

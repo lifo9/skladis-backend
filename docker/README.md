@@ -20,5 +20,5 @@ ALTER USER skladis_test CREATEDB;
 Start the backend:
 
 ```
-docker compose up -d
+docker compose up -d --build
 ```

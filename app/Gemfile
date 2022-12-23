@@ -48,6 +48,12 @@ gem 'rolify'
 # Track changes to your models, for auditing or versioning.
 gem 'paper_trail'
 
+# application preloader
+gem 'spring'
+
+# listens to file modifications and notifies you about the changes.
+gem 'listen'
+
 #-------------------------------------------------------------------------------
 # Assets
 #-------------------------------------------------------------------------------
@@ -83,11 +89,6 @@ group :development, :test do
 end
 
 group :development do
-  # listens to file modifications and notifies you about the changes.
-  gem 'listen'
-
-  # application preloader
-  gem 'spring'
   gem 'spring-watcher-listen'
 
   # preview emails
