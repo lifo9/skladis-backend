@@ -70,20 +70,20 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     api-pagination (5.0.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.605.0)
-    aws-sdk-core (3.131.2)
+    aws-partitions (1.684.0)
+    aws-sdk-core (3.168.4)
       aws-eventstream (~> 1, >= 1.0.2)
-      aws-partitions (~> 1, >= 1.525.0)
-      aws-sigv4 (~> 1.1)
+      aws-partitions (~> 1, >= 1.651.0)
+      aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.57.0)
-      aws-sdk-core (~> 3, >= 3.127.0)
+    aws-sdk-kms (1.61.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.114.0)
-      aws-sdk-core (~> 3, >= 3.127.0)
+    aws-sdk-s3 (1.117.2)
+      aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
-    aws-sigv4 (1.5.0)
+    aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.18)
     bootsnap (1.15.0)
@@ -108,7 +108,7 @@ GEM
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
-    jmespath (1.6.1)
+    jmespath (1.6.2)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
     jwt (2.6.0)
@@ -244,7 +244,7 @@ PLATFORMS
 
 DEPENDENCIES
   api-pagination
-  aws-sdk-s3 (~> 1.111)
+  aws-sdk-s3 (~> 1.117)
   bcrypt
   bootsnap
   byebug
