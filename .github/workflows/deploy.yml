@@ -18,6 +18,7 @@ jobs:
         run: flyctl auth docker
       - name: Set dynamic ENV variables
         run: |
+          ls -al
           RUBY_VERSION=$(cat ./app/.ruby-version) >> $GITHUB_ENV
           BUNDLER_VERSION=$(cat ./app/Gemfile.lock | grep "BUNDLED WITH" -A1 | tail -n 1 | xargs) >> $GITHUB_ENV
       - name: Build and push
