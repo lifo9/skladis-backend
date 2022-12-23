@@ -22,7 +22,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: registry.fly.io/$FLY_APP_NAME:latest
+          tags: registry.fly.io/skladis-api:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Deploy to production
