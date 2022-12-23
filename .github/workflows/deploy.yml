@@ -9,6 +9,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    working-directory: ./app
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -19,7 +20,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./app
+          context: .
           platforms: linux/amd64
           push: true
           tags: registry.fly.io/skladis-api:latest
