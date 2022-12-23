@@ -19,7 +19,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./app
           platforms: linux/amd64
           push: true
           tags: registry.fly.io/skladis-api:latest
