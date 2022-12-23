@@ -25,13 +25,15 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          RUBY_VERSION: ${{ env.RUBY_VERSION }}
-          BUNDLER_VERSION: ${{ env.BUNDLER_VERSION }}
           context: "{{defaultContext}}:app"
           platforms: linux/amd64
           push: true
           tags: registry.fly.io/skladis-api:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            RAILS_ENV=production
+            RUBY_VERSION=${{ env.RUBY_VERSION }}
+            BUNDLER_VERSION=${{ env.BUNDLER_VERSION }}
       - name: Deploy to production
         run: flyctl m update -a $FLY_APP_NAME $FLY_MACHINE_ID -y
