@@ -1,9 +1,16 @@
 terraform {
   required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
     cloudflare = {
       source = "cloudflare/cloudflare"
     }
   }
+}
+
+provider "aws" {
+  region = var.aws_region
 }
 
 provider "aws" {
@@ -121,11 +128,11 @@ resource "aws_acm_certificate" "certificate" {
 
 resource "cloudflare_record" "verification_dns" {
   for_each = {
-  for dvo in aws_acm_certificate.certificate.domain_validation_options : dvo.domain_name => {
-    name   = dvo.resource_record_name
-    record = dvo.resource_record_value
-    type   = dvo.resource_record_type
-  }
+    for dvo in aws_acm_certificate.certificate.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
   }
 
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
