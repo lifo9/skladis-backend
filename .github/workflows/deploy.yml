@@ -17,10 +17,9 @@ jobs:
       - name: Authenticate Fly registry
         run: flyctl auth docker
       - name: Build and push
-        working-directory: ./app
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: "{{defaultContext}}:app"
           platforms: linux/amd64
           push: true
           tags: registry.fly.io/skladis-api:latest
