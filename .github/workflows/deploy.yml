@@ -17,8 +17,8 @@ jobs:
       - name: Authenticate Fly registry
         run: flyctl auth docker
       - name: Build and push
-        uses: docker/build-push-action@v3
         working-directory: ./app
+        uses: docker/build-push-action@v3
         with:
           context: .
           platforms: linux/amd64
