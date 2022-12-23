@@ -9,9 +9,6 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./app
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -21,6 +18,7 @@ jobs:
         run: flyctl auth docker
       - name: Build and push
         uses: docker/build-push-action@v3
+        working-directory: ./app
         with:
           context: .
           platforms: linux/amd64
