@@ -11,9 +11,6 @@ gem 'rails', '~> 7.0'
 # the Ruby interface to the PostgreSQL RDBMS
 gem 'pg'
 
-# A Ruby client that tries to match Redis' API one-to-one, while still providing an idiomatic interface.
-gem 'redis'
-
 # optimize and cache expensive computations
 gem 'bootsnap'
 
@@ -49,21 +46,21 @@ gem 'pundit'
 gem 'rolify'
 
 # Track changes to your models, for auditing or versioning.
-gem "paper_trail"
+gem 'paper_trail'
 
 #-------------------------------------------------------------------------------
 # Assets
 #-------------------------------------------------------------------------------
 # Provides higher-level image processing helpers that are commonly needed when handling image uploads.
-gem "image_processing"
+gem 'image_processing'
 
 # A ruby wrapper for ImageMagick or GraphicsMagick command line.
-gem "mini_magick"
+gem 'mini_magick'
 
 #-------------------------------------------------------------------------------
 # 3rd-party & APIs
 #-------------------------------------------------------------------------------
-gem "aws-sdk-s3", "~> 1.111"
+gem 'aws-sdk-s3', '~> 1.111'
 
 #-------------------------------------------------------------------------------
 # Services and utilities

@@ -60,6 +60,14 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def custom_bad_request
+    head :bad_request
+  end
+
+  def status
+    render json: { status: 'ok' }
+  end
+
   private
 
   def current_user

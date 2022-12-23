@@ -14,7 +14,6 @@ services:
       PGHOST: skladis-db
       DISABLE_SPRING: true
       POSTGRES_PASSWORD: ${POSTGRES_SKLADIS_PASSWORD}
-      REDIS_URL: "redis://redis:6379"
       SMTP_USERNAME: ${SMTP_USERNAME}
       SMTP_PASSWORD: ${SMTP_PASSWORD}
       S3_ACCESS_KEY: ${S3_ACCESS_KEY}
@@ -28,7 +27,6 @@ services:
       - "127.0.0.1:3009:3009"
     depends_on:
       - skladis-db
-      - redis
 
   skladis-db:
     image: docker.io/postgres:13-alpine
@@ -38,15 +36,8 @@ services:
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: ${TIMEZONE}
-
-  redis:
-    image: docker.io/redis:alpine
-    container_name: skladis-redis
-    volumes:
-      - ./redis:/data
-    environment:
-      TZ: ${TIMEZONE}
-    command: redis-server
+    ports:
+      - "127.0.0.1:5432:5432"
 
   adminer:
     container_name: skladis-adminer
