@@ -29,15 +29,16 @@ WORKDIR $APP_HOME
 
 # Install dependencies
 ARG RAILS_ENV=production
+ARG RUBY_VERSION
 COPY Gemfile* $APP_HOME/
 COPY .ruby-version $APP_HOME/
 RUN if [[ "$RAILS_ENV" = production ]] ; then bundle config --local without development:test ; fi
 RUN bundle config set --local path $BUNDLER_DIR && \
     bundle install && \
     rm -rf $APP_HOME/tmp/* && \
-    rm -rf $BUNDLER_DIR/ruby/3.1.0/cache/*.gem && \
-    find $BUNDLER_DIR/ruby/3.1.0/gems/ -name "*.c" -delete && \
-    find $BUNDLER_DIR/ruby/3.1.0/gems/ -name "*.o" -delete
+    rm -rf $BUNDLER_DIR/ruby/$RUBY_VERSION/cache/*.gem && \
+    find $BUNDLER_DIR/ruby/$RUBY_VERSION/gems/ -name "*.c" -delete && \
+    find $BUNDLER_DIR/ruby/$RUBY_VERSION/gems/ -name "*.o" -delete
 COPY . $APP_HOME
 
 ########################
