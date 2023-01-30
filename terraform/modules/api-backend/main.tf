@@ -70,7 +70,7 @@ resource "fly_machine" "api" {
   cputype  = "shared"
   cpus     = 1
   memorymb = 256
-  image    = "registry.fly.io/skladis-api:latest"
+  image    = "registry.fly.io/skladis-api"
   services = [
     {
       ports = [
