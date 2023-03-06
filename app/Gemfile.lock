@@ -152,7 +152,7 @@ GEM
     paper_trail (14.0.0)
       activerecord (>= 6.0)
       request_store (~> 1.4)
-    pg (1.4.5)
+    pg (1.4.6)
     public_suffix (5.0.1)
     puma (6.1.1)
       nio4r (~> 2.0)
