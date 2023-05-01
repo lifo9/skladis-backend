@@ -37,8 +37,8 @@ RUN bundle config set --local path $BUNDLER_DIR && \
     bundle install && \
     rm -rf $APP_HOME/tmp/* && \
     rm -rf $BUNDLER_DIR/ruby/$RUBY_VERSION/cache/*.gem && \
-    find $BUNDLER_DIR/ruby/$RUBY_VERSION/gems/ -name "*.c" -delete && \
-    find $BUNDLER_DIR/ruby/$RUBY_VERSION/gems/ -name "*.o" -delete
+    find $BUNDLER_DIR/ruby/3.2.0/gems/ -name "*.c" -delete && \
+    find $BUNDLER_DIR/ruby/3.2.0/gems/ -name "*.o" -delete
 COPY . $APP_HOME
 
 ########################

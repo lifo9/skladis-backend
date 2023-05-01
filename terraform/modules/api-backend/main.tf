@@ -45,13 +45,12 @@ resource "fly_machine" "postgres" {
   cputype  = "shared"
   cpus     = 1
   memorymb = 256
-  image    = "registry-1.docker.io/postgres:13-alpine"
+  image    = "registry-1.docker.io/postgres:15-alpine"
   services = []
   mounts   = [
     {
-      volume : "${fly_volume.db_data.name}"
+      volume : "${fly_volume.db_data.id}"
       path : "/var/lib/postgresql/data"
-      encrypted : true
       size_gb : fly_volume.db_data.size
     }
   ]
