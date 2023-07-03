@@ -32,7 +32,7 @@ ARG RAILS_ENV=production
 ARG RUBY_VERSION
 COPY Gemfile* $APP_HOME/
 COPY .ruby-version $APP_HOME/
-RUN if [[ "$RAILS_ENV" = production ]] ; then bundle config --local without development:test ; fi
+RUN if [ "$RAILS_ENV" = "production" ] ; then bundle config --local without 'development test'; fi
 RUN bundle config set --local path $BUNDLER_DIR && \
     bundle install && \
     rm -rf $APP_HOME/tmp/* && \
@@ -60,7 +60,13 @@ RUN apk update && apk upgrade && \
     postgresql-client \
     tzdata \
     imagemagick \
-    libc6-compat
+    libc6-compat && \
+    if [ "$RAILS_ENV" = "development" ]; then \
+     apk add --no-cache build-base \
+                        linux-headers \
+                        git \
+                        postgresql-dev; \
+    fi;
 
 # Set workdir
 ENV APP_HOME /app
@@ -71,7 +77,7 @@ WORKDIR $APP_HOME
 COPY --from=builder $BUNDLER_DIR $BUNDLER_DIR
 COPY --from=builder /app $APP_HOME
 RUN bundle config --local path $BUNDLER_DIR && \
-    bundle config --local without development:test:assets
+    if [ "$RAILS_ENV" = "production" ] ; then  bundle config --local without 'development:test:assets'; fi
 
 EXPOSE 3009
 

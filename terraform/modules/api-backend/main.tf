@@ -9,12 +9,6 @@ terraform {
   }
 }
 
-provider "fly" {
-  useinternaltunnel    = true
-  internaltunnelorg    = "personal"
-  internaltunnelregion = var.region
-}
-
 resource "fly_app" "app" {
   org  = var.organization
   name = var.app_name

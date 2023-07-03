@@ -5,10 +5,10 @@ Configure DB (in docker container):
 ```
 docker exec -it skladis-db bash
 psql -U postgres
-CREATE DATABASE skladis_production;
+CREATE DATABASE skladis_development;
 CREATE USER skladis WITH PASSWORD 'password'; # change password
-GRANT ALL PRIVILEGES ON DATABASE "skladis_production" to skladis;
-ALTER DATABASE skladis_production OWNER TO skladis;
+GRANT ALL PRIVILEGES ON DATABASE "skladis_development" to skladis;
+ALTER DATABASE skladis_development OWNER TO skladis;
 
 CREATE DATABASE skladis_test;
 CREATE USER skladis_test WITH PASSWORD 'skladis';
