@@ -154,7 +154,7 @@ GEM
       request_store (~> 1.4)
     pg (1.5.3)
     public_suffix (5.0.1)
-    puma (6.3.0)
+    puma (6.3.1)
       nio4r (~> 2.0)
     pundit (2.3.1)
       activesupport (>= 3.0.0)
