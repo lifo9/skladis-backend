@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   before_action :authorize_access_request!
-  before_action :set_invoice, only: %i[ show update destroy destroy_invoice_file, update_stocked_in ]
+  before_action :set_invoice, only: %i[ show update destroy destroy_invoice_file update_stocked_in ]
 
   # GET /invoices
   def index
@@ -75,7 +75,7 @@ class InvoicesController < ApplicationController
     @invoice.destroy
   end
 
-  # DELETE /invoices/1/avatar
+  # DELETE /invoices/1/invoice-file
   def destroy_invoice_file
     @invoice.invoice_file.purge
   end
