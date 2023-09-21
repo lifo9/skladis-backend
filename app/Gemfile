@@ -54,6 +54,9 @@ gem 'spring'
 # listens to file modifications and notifies you about the changes.
 gem 'listen'
 
+# Exception tracking and logging from Ruby to Rollbar
+gem 'rollbar'
+
 #-------------------------------------------------------------------------------
 # Assets
 #-------------------------------------------------------------------------------
