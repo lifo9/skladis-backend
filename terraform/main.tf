@@ -49,4 +49,5 @@ module "api_backend" {
   s3_signing_key_pair_private_key = var.s3_signing_key_pair_private_key
   smtp_username                   = var.api_smtp_username
   smtp_password                   = var.api_smtp_password
+  rollbar_access_token            = var.api_rollbar_access_token
 }

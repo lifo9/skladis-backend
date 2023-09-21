@@ -66,12 +66,12 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-    addressable (2.8.4)
+    addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
     api-pagination (5.0.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.812.0)
-    aws-sdk-core (3.181.0)
+    aws-partitions (1.826.0)
+    aws-sdk-core (3.183.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -79,7 +79,7 @@ GEM
     aws-sdk-kms (1.71.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.134.0)
+    aws-sdk-s3 (1.135.0)
       aws-sdk-core (~> 3, >= 3.181.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
@@ -134,7 +134,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     minitest (5.20.0)
-    msgpack (1.7.1)
+    msgpack (1.7.2)
     net-imap (0.3.7)
       date
       net-protocol
@@ -142,7 +142,7 @@ GEM
       net-protocol
     net-protocol (0.2.1)
       timeout
-    net-smtp (0.3.3)
+    net-smtp (0.4.0)
       net-protocol
     nio4r (2.5.9)
     nokogiri (1.15.4-aarch64-linux)
@@ -153,8 +153,8 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     pg (1.5.4)
-    public_suffix (5.0.1)
-    puma (6.3.1)
+    public_suffix (5.0.3)
+    puma (6.4.0)
       nio4r (~> 2.0)
     pundit (2.3.1)
       activesupport (>= 3.0.0)
@@ -199,6 +199,7 @@ GEM
     request_store (1.5.1)
       rack (>= 1.4)
     rolify (6.0.1)
+    rollbar (3.4.0)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
       rspec-expectations (~> 3.12.0)
@@ -208,7 +209,7 @@ GEM
     rspec-expectations (3.12.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-mocks (3.12.5)
+    rspec-mocks (3.12.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-rails (6.0.3)
@@ -261,6 +262,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0)
   rolify
+  rollbar
   rspec
   rspec-rails
   spring

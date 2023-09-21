@@ -89,6 +89,7 @@ resource "fly_machine" "api" {
     TIMEZONE : var.timezone
     S3_SIGNING_KEY_PAIR_ID : var.s3_signing_key_pair_id
     S3_SIGNING_PRIVATE_KEY : var.s3_signing_key_pair_private_key
+    ROLLBAR_ACCESS_TOKEN : var.rollbar_access_token
   }
 }
 

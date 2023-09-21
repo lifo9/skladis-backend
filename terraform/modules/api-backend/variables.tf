@@ -76,3 +76,8 @@ variable "smtp_password" {
   type      = string
   sensitive = true
 }
+
+variable "rollbar_access_token" {
+  type      = string
+  sensitive = true
+}

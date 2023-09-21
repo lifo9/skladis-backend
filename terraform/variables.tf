@@ -85,3 +85,8 @@ variable "api_smtp_password" {
   type      = string
   sensitive = true
 }
+
+variable "api_rollbar_access_token" {
+  type      = string
+  sensitive = true
+}
