@@ -229,7 +229,7 @@ GEM
     request_store (1.5.1)
       rack (>= 1.4)
     rolify (6.0.1)
-    rollbar (3.5.1)
+    rollbar (3.5.2)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
