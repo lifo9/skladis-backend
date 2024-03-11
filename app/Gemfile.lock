@@ -128,9 +128,10 @@ GEM
     jmespath (1.6.2)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
-    jwt (2.7.1)
-    jwt_sessions (3.2.1)
-      jwt (~> 2.6, < 3)
+    jwt (2.8.1)
+      base64
+    jwt_sessions (3.2.2)
+      jwt (>= 2.8, < 3)
     launchy (2.5.2)
       addressable (~> 2.8)
     letter_opener (1.9.0)
