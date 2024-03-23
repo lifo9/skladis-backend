@@ -5,7 +5,6 @@ class User < ApplicationRecord
   include Filterable
 
   after_create :assign_default_role
-  after_save_commit :resize_avatar
 
   has_secure_password
   has_one :registration_invitation, dependent: :destroy, class_name: RegistrationInvitation.to_s
@@ -15,6 +14,8 @@ class User < ApplicationRecord
 
   validates :email, :uniqueness => { :case_sensitive => false }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  after_save_commit :resize_avatar
 
   PERMITTED_PARAMS = [:first_name, :last_name, :email, :phone, :password, :avatar, :active, role_ids: []].freeze
   MY_PROFILE_PERMITTED_PARAMS = [:first_name, :last_name, :email, :phone, :password, :avatar].freeze
