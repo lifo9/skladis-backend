@@ -3,13 +3,13 @@ class Contact < ApplicationRecord
   include Orderable
   include Filterable
 
+  after_save_commit :resize_avatar
+
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   has_one_attached :avatar do |attachable|
     attachable.variant(:thumb, resize_to_limit: [256, 256])
   end
-
-  after_save_commit :resize_avatar
 
   PERMITTED_PARAMS = [:first_name, :last_name, :email, :phone, :avatar].freeze
 

@@ -3,6 +3,8 @@ class Product < ApplicationRecord
   include Orderable
   include Filterable
 
+  after_save_commit :resize_images
+
   has_and_belongs_to_many :suppliers, class_name: Supplier.to_s
   has_many_attached :images do |attachable|
     attachable.variant(:thumb, resize_to_limit: [256, 256])
@@ -10,8 +12,6 @@ class Product < ApplicationRecord
   end
 
   belongs_to :barcode, class_name: Barcode.to_s, dependent: :destroy, optional: true
-
-  after_save_commit :resize_images
 
   PERMITTED_PARAMS = [:name, :order_code, :pieces_ideal, :pieces_critical, supplier_ids: [], images: []].freeze
 
