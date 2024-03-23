@@ -15,6 +15,7 @@ RUN apk update && apk upgrade && \
     postgresql-dev \
     tzdata \
     imagemagick \
+    imagemagick-jpeg \
     libc6-compat
 
 # Install bundler
@@ -60,6 +61,7 @@ RUN apk update && apk upgrade && \
     postgresql-client \
     tzdata \
     imagemagick \
+    imagemagick-jpeg \
     libc6-compat && \
     if [ "$RAILS_ENV" = "development" ]; then \
      apk add --no-cache build-base \
