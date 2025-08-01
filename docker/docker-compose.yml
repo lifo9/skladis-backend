@@ -3,6 +3,7 @@ version: "3"
 services:
   skladis-backend:
     image: skladis-backend
+    platform: linux/amd64
     build:
       context: '../app'
       dockerfile: '../app/Dockerfile'
