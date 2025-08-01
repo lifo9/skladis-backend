@@ -137,6 +137,7 @@ Rails.application.routes.draw do
   scope 'audits', controller: :audits do
     get '', action: :index
     get 'select-options', action: :select_options
+    get 'stock-audit', action: :stock_audit
   end
 
   # Stocks

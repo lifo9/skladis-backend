@@ -10,6 +10,7 @@ class Product < ApplicationRecord
     attachable.variant(:thumb, resize_to_limit: [256, 256])
     attachable.variant(:normal, resize_to_limit: [1024, 1024])
   end
+  has_many :stocks, dependent: :destroy
 
   belongs_to :barcode, class_name: Barcode.to_s, dependent: :destroy, optional: true
 
@@ -17,6 +18,10 @@ class Product < ApplicationRecord
 
   def in_stock
     Stock::pieces_total(product_id: self.id)
+  end
+
+  def unit_price
+    InvoiceItem.joins(:invoice).where(product: self).order(Invoice.arel_table[:invoice_date].desc).last&.unit_price
   end
 
   private

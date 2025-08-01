@@ -12,11 +12,19 @@ class AuditsController < ApplicationController
   # GET /audits/select-options
   def select_options
     select_options = Version.all.select(:item_type).distinct.map { |version| {
-      id: version.item_type,
+      id:    version.item_type,
       label: version.item_type
     } }
 
     render json: select_options
+  end
+
+  # GET /audits/stock-audit
+  def stock_audit
+    send_data StockAuditService.build_current_stock_audit,
+              filename:    "stock_audit_#{Date.current.strftime('%Y%m%d')}.csv",
+              type:        'text/csv',
+              disposition: 'attachment'
   end
 
   private
