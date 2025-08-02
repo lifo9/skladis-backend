@@ -13,7 +13,7 @@ class StockAuditService
         total_value = in_stock * unit_price
         total_price += total_value
 
-        csv << [product.order_code, product.name, in_stock, unit_price, total_value]
+        csv << [product.order_code, product.name, in_stock, unit_price.round(3), total_value.round(3)]
       end
 
       csv << ["", "", "", "TOTAL:", total_price]
@@ -24,7 +24,7 @@ class StockAuditService
 
   def self.get_latest_unit_price(product_id)
     @unit_prices ||= latest_unit_prices_hash
-    @unit_prices[product_id] || 0
+    @unit_prices[product_id].to_f || 0
   end
 
   def self.latest_unit_prices_hash
