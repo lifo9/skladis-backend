@@ -21,6 +21,7 @@ class AuditsController < ApplicationController
 
   # GET /audits/stock-audit
   def stock_audit
+    expires_now
     send_data StockAuditService.build_current_stock_audit,
               filename:    "stock_audit_#{Date.current.strftime('%Y%m%d')}.csv",
               type:        'text/csv',
