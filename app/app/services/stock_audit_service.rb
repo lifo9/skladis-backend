@@ -1,23 +1,29 @@
-require 'csv'
+require 'caxlsx'
 
 class StockAuditService
   def self.build_current_stock_audit
-    total_price = 0
+    Axlsx::Package.new do |p|
+      p.workbook.add_worksheet(name: "Stock Audit") do |sheet|
+        sheet.add_row ["Product Code", "Product Name", "Supplier", "Current Stock", "Unit Price", "Total Value"]
 
-    CSV.generate do |csv|
-      csv << ["Product Code", "Product Name", "Supplier", "Current Stock", "Unit Price", "Total Value"]
+        Product.includes(:stocks).find_each(batch_size: 1000) do |product|
+          in_stock      = product.stocks.sum(&:pieces)
+          unit_price    = get_latest_unit_price(product.id)
+          supplier_name = get_latest_supplier_name(product.id)
+          total_value   = in_stock * unit_price
 
-      Product.includes(:stocks).find_each(batch_size: 1000) do |product|
-        in_stock      = product.stocks.sum(&:pieces)
-        unit_price    = get_latest_unit_price(product.id)
-        supplier_name = get_latest_supplier_name(product.id)
-        total_value   = in_stock * unit_price
-        total_price   += total_value
-
-        csv << [product.order_code, product.name, supplier_name, in_stock, unit_price.round(3), total_value.round(3)]
+          sheet.add_row [
+                          product.order_code,
+                          product.name,
+                          supplier_name,
+                          in_stock,
+                          unit_price.round(3),
+                          total_value.round(3)
+                        ], types: [:string, :string, :string, :integer, :float, :float]
+        end
       end
 
-      csv << ["", "", "", "", "TOTAL:", total_price.to_f.round(3)]
+      return p.to_stream.read
     end
   end
 

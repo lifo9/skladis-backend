@@ -26,6 +26,10 @@ gem 'will_paginate'
 # Paginate in your headers, not in your response body. This follows the proposed RFC-8288 standard for Web linking.
 gem 'api-pagination'
 
+# xlsx generation
+gem "caxlsx", "~> 4.2"
+gem "caxlsx_rails", "~> 0.6.4"
+
 #-------------------------------------------------------------------------------
 # Rails configuration, middleware, extensions
 #-------------------------------------------------------------------------------
@@ -97,3 +101,4 @@ group :development do
   # preview emails
   gem "letter_opener", group: :development
 end
+
