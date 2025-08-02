@@ -16,7 +16,7 @@ class StockAuditService
         csv << [product.order_code, product.name, in_stock, unit_price.round(3), total_value.round(3)]
       end
 
-      csv << ["", "", "", "TOTAL:", total_price]
+      csv << ["", "", "", "TOTAL:", total_price.to_f.round(3)]
     end
   end
 
