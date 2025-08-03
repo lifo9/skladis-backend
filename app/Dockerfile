@@ -62,6 +62,7 @@ RUN apk update && apk upgrade && \
     tzdata \
     imagemagick \
     imagemagick-jpeg \
+    imagemagick-webp \
     libc6-compat && \
     if [ "$RAILS_ENV" = "development" ]; then \
      apk add --no-cache build-base \
