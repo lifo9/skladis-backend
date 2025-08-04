@@ -41,7 +41,7 @@ resource "fly_machine" "postgres" {
   memorymb = 256
   image    = "registry-1.docker.io/postgres:15-alpine"
   services = []
-  mounts   = [
+  mounts = [
     {
       volume : "${fly_volume.db_data.id}"
       path : "/var/lib/postgresql/data"
@@ -62,13 +62,13 @@ resource "fly_machine" "api" {
   name     = var.app_name
   cputype  = "shared"
   cpus     = 1
-  memorymb = 256
+  memorymb = 512
   image    = "registry.fly.io/skladis-api"
   services = [
     {
       ports = [
         {
-          port     = 443
+          port = 443
           handlers = ["tls", "http"]
         }
       ]
