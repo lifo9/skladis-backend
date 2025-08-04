@@ -5,24 +5,21 @@ class StockAuditService
     Axlsx::Package.new do |p|
       p.workbook.add_worksheet(name: "Stock Audit") do |sheet|
         sheet.add_row ["Product Code", "Product Name", "Supplier", "Current Stock", "Unit Price", "Total Value"]
-
-        Product.includes(:stocks).find_each(batch_size: 1000) do |product|
-          in_stock      = product.stocks.sum(&:pieces)
-          unit_price    = get_latest_unit_price(product.id)
-          supplier_name = get_latest_supplier_name(product.id)
-          total_value   = in_stock * unit_price
-
+        Product.includes(:stocks, :suppliers).find_each(batch_size: 1000) do |product|
+          in_stock       = product.stocks.sum(&:pieces)
+          unit_price     = get_latest_unit_price(product.id)
+          supplier_names = get_supplier_names(product)
+          total_value    = in_stock * unit_price
           sheet.add_row [
                           product.order_code,
                           product.name,
-                          supplier_name,
+                          supplier_names,
                           in_stock,
                           unit_price.round(3),
                           total_value.round(3)
                         ], types: [:string, :string, :string, :integer, :float, :float]
         end
       end
-
       return p.to_stream.read
     end
   end
@@ -30,19 +27,19 @@ class StockAuditService
   private
 
   def self.get_latest_unit_price(product_id)
-    @unit_prices ||= latest_product_data_hash
-    @unit_prices[product_id]&.unit_price.to_f || 0
+    @unit_prices ||= latest_product_prices_hash
+    @unit_prices[product_id] || 0
   end
 
-  def self.get_latest_supplier_name(product_id)
-    @supplier_names ||= latest_product_data_hash
-    @supplier_names[product_id]&.supplier_name || "Unknown"
+  def self.get_supplier_names(product)
+    product.suppliers.pluck(:name).join(', ')
   end
 
-  def self.latest_product_data_hash
-    @latest_product_data ||= InvoiceItem.joins(:invoice, :supplier)
-                                        .select('DISTINCT ON (product_id) product_id, unit_price, suppliers.name as supplier_name')
-                                        .order('product_id, invoices.invoice_date DESC')
-                                        .index_by(&:product_id)
+  def self.latest_product_prices_hash
+    @latest_product_prices ||= InvoiceItem.joins(:invoice)
+                                          .select('DISTINCT ON (product_id) product_id, unit_price')
+                                          .order('product_id, invoices.invoice_date DESC')
+                                          .pluck(:product_id, :unit_price)
+                                          .to_h
   end
 end
