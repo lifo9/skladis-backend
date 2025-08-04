@@ -21,7 +21,7 @@ class Product < ApplicationRecord
   end
 
   def unit_price
-    InvoiceItem.joins(:invoice).where(product: self).order(Invoice.arel_table[:invoice_date].desc).last&.unit_price
+    InvoiceItem.joins(:invoice).where(product: self).order(Invoice.arel_table[:invoice_date].desc).first&.unit_price
   end
 
   private

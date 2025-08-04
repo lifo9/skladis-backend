@@ -36,10 +36,22 @@ class StockAuditService
   end
 
   def self.latest_product_prices_hash
-    @latest_product_prices ||= InvoiceItem.joins(:invoice)
-                                          .select('DISTINCT ON (product_id) product_id, unit_price')
-                                          .order('product_id, invoices.invoice_date DESC')
-                                          .pluck(:product_id, :unit_price)
-                                          .to_h
+    sql = <<-SQL
+    SELECT product_id, unit_price
+    FROM (
+      SELECT product_id, unit_price,
+             ROW_NUMBER() OVER (PARTITION BY product_id 
+                               ORDER BY invoices.invoice_date DESC, 
+                                       invoice_items.id DESC) as rn
+      FROM invoice_items
+      JOIN invoices ON invoices.id = invoice_items.invoice_id
+    ) ranked_items
+    WHERE rn = 1
+    SQL
+
+    @latest_product_prices ||= begin
+                                 results = ActiveRecord::Base.connection.execute(sql)
+                                 results.to_a.map { |row| [row['product_id'], row['unit_price']] }.to_h
+                               end
   end
 end
