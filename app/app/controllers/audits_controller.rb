@@ -21,7 +21,10 @@ class AuditsController < ApplicationController
 
   # GET /audits/stock-audit
   def stock_audit
-    expires_now
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, private, max-age=0'
+    response.headers['Pragma']        = 'no-cache'
+    response.headers['Expires']       = '0'
+
     send_data StockAuditService.build_current_stock_audit,
               filename:    "stock_audit_#{Date.current.strftime('%Y%m%d')}.xlsx",
               type:        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
